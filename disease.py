@@ -1,6 +1,6 @@
 import random
 class Disease:
-    def __init__(selfself, k, p , r,):
+    def __init__(self, k, p , r,):
         self.duration = k
         self.contagion = p
         self.recovprob = r
