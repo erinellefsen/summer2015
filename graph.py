@@ -43,15 +43,26 @@ class Graph:
         print("S is",s,"I is",i,"R is",r)
 
 def main():
+
      #duration,prob of infection, prob of recov, initial infection
     g = Graph(3, .02, .05, .1)
     g.makeVertices(2000)         # of people
     g.makeConnections(.005)         #prob they are connected
     for i in range(0,40):
+
+
+
+
+
+
+
         g.update()
 
 if __name__ == "__main__":
     main()
+
+
+
 
 
 
