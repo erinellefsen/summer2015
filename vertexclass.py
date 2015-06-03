@@ -1,4 +1,4 @@
-import sys
+
 import disease
 
 class Vertex:
@@ -17,7 +17,7 @@ class Vertex:
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
     def __repr__(self):
-        return str(self.id) + " : "+ self.status
+        return self.status
 
     def getConnections(self):
         return self.connectedTo

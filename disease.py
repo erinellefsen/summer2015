@@ -22,6 +22,6 @@ class Disease:
     def getContagion(self):
         return self.contagion
     def getRecovery(self):
-        return self.recovery
+        return self.recovprob
     def getInfection(self):
         return self.infectiontime
