@@ -19,64 +19,75 @@ class Graph:
             if random.random() < self.infect:
                 v.initialInfect()
 
-    def makeConnections(self,p):
+
+    def makeConnections(self,x):
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < p:
+                    if random.random() < x:
                         item.addNeighbor(item2)
 
+
     def update(self):
+        s = 0
+        i = 0
+        r = 0
         for item in self.vertices:
+            if item.getStatus() == 'S':
+                s += 1
+            if item.getStatus() == 'I':
+                i += 1
+            if item.getStatus() == "R":
+                r += 1
             item.update()
+        print("S is",s,"I is",i,"R is",r)
 
 def main():
-
-    g = Graph(3, .45, .1, .1)
-    g.makeVertices(100)
-    g.makeConnections(.25)
-    for i in range(0,15):
+     #duration,prob of infection, prob of recov, initial infection
+    g = Graph(3, .02, .05, .1)
+    g.makeVertices(2000)         # of people
+    g.makeConnections(.005)         #prob they are connected
+    for i in range(0,40):
         g.update()
-        print(g.getVertices())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
