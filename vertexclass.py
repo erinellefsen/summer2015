@@ -1,17 +1,16 @@
 import sys
 
 class Vertex:
-    def __init__(self,key):
+    def __init__(self,key,disease):
         self.id = key
         self.connectedTo = {}
-        self.color = 'white'
-        self.dist = sys.maxsize
-        self.pred = None
-        self.disc = 0
-        self.fin = 0
-        #self.cost = {}
+        self.disease = disease
+        self.status = 'S'  #S = 1, I = 2, R = 3. Use random numbers to assign.
+        self.pred = None #Track infection
+        self.lengthOfInfection 
     def addNeighbor(self,nbr,weight=0):
         self.connectedTo[nbr] = weight
+        
     def __str__(self):
         return str(self.id) + ' connectedTo: '+ str([x.id for x in self.connectedTo])
     def getConnections(self):
