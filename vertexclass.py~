@@ -8,18 +8,20 @@ class Vertex:
         self.disease = disease
         self.pred = None #Track infection
         self.status = 'S' 
-        self.nextStatue = 'S'
+        self.nextStatus = 'S'
 
 
     def addNeighbor(self,nbr):
         self.connectedTo = self.connectedTo + [nbr]
-        #print(self.getConnections())
-        #print(nbr.getConnections())
 
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
-    def __str__(self):
-        return str(self.id) + ' connectedTo: '+ str([x.id for x in self.connectedTo])
+    def __repr__(self):
+<<<<<<< HEAD
+        return str(self.id) + " : "+ self.status
+=======
+        return str(self.id)
+>>>>>>> fc6c14e3083ca954599c8d12a91db2e5253d89cf
     def getConnections(self):
         return self.connectedTo
     def getId(self):
@@ -35,15 +37,33 @@ class Vertex:
     def getStatus(self):
         return self.status
 
+    def initialInfect(self):
+        self.status = "I"
+        self.nextStatus = "I"
+
     def update(self):
         '''
         This function updates the status of the vertex by
         looking at it's neighbors and for each infected, 
-        it 
+        it randomly infects based on contagiousness. If the
+        infection spreads, the vertex's attribute nextStatus
+        is updated to I. At the beginning of the next step, 
+        the vertex's status will be updated.
 
         '''
-        return None
-
+        self.status = self.nextStatus
+        if self.getStatus() == 'S':
+            for i in self.getConnections():
+                if i.getStatus() == 'I':
+                    if self.disease.checkSpread():
+                        self.nextStatus = 'I'
+        elif self.getStatus() == 'I':
+            if self.disease.checkRecovered():
+                self.nextStatus = 'R'
+        else:
+            return
+        
+            
 def main():
     d = disease.Disease(3,.45,.1)
     v = Vertex('A',d)

@@ -13,13 +13,12 @@ class Vertex:
 
     def addNeighbor(self,nbr):
         self.connectedTo = self.connectedTo + [nbr]
-        #print(self.getConnections())
-        #print(nbr.getConnections())
 
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
     def __repr__(self):
         return str(self.id) + " : "+ self.status
+
     def getConnections(self):
         return self.connectedTo
     def getId(self):
