@@ -32,7 +32,12 @@ class Vertex:
         return self.status
 
     def update(self):
-        '''THis is a cool comment thing'''
+        '''
+        This function updates the status of the vertex by
+        looking at it's neighbors and for each infected, 
+        it 
+
+        '''
         return None
 
 def main():
