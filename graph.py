@@ -27,9 +27,9 @@ class Graph:
 
 
 def main():
-<<<<<<< HEAD
+    
     count = 0
-    for i in range(5):
+    for i in range(1):
 
         A = vertexclass.Vertex("A",disease.Disease(3,.45,.1))
         B = vertexclass.Vertex("B",disease.Disease(3,.45,.1))
@@ -55,7 +55,7 @@ def main():
         F.addNeighbor(I)
         H.addNeighbor(I)
         A.initialInfect()
-        for i in range(5):
+        for i in range(6):
             for i in vertLst:
                 i.update()
             print(vertLst)

@@ -17,8 +17,7 @@ class Vertex:
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
     def __repr__(self):
-        return str(self.id) + " : "+ self.status
-
+        return "\n"+str(self.id) + " : "+ self.status
     def getConnections(self):
         return self.connectedTo
     def getId(self):
@@ -37,7 +36,12 @@ class Vertex:
     def initialInfect(self):
         self.status = "I"
         self.nextStatus = "I"
-
+    def incInfection(self):
+        '''
+        This function is called on infected individuals and updates
+        how long they've been infected
+        '''
+        self.disease.timeInc()
     def update(self):
         '''
         This function updates the status of the vertex by
@@ -55,8 +59,10 @@ class Vertex:
                     if self.disease.checkSpread():
                         self.nextStatus = 'I'
         elif self.getStatus() == 'I':
+            self.incInfection()
             if self.disease.checkRecovered():
                 self.nextStatus = 'R'
+            
         else:
             return
         
