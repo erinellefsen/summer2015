@@ -10,8 +10,12 @@ class Vertex:
         self.status = 'S' 
         self.nextStatue = 'S'
 
-    def addNeighbor(self,nbr,weight=0):
-        self.connectedTo.append(nbr)
+
+    def addNeighbor(self,nbr):
+        self.connectedTo = self.connectedTo + [nbr]
+        #print(self.getConnections())
+        #print(nbr.getConnections())
+
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
     def __str__(self):
