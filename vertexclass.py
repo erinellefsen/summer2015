@@ -8,18 +8,16 @@ class Vertex:
         self.disease = disease
         self.pred = None #Track infection
         self.status = 'S' 
-        self.nextStatue = 'S'
+        self.nextStatus = 'S'
 
 
     def addNeighbor(self,nbr):
         self.connectedTo = self.connectedTo + [nbr]
-        #print(self.getConnections())
-        #print(nbr.getConnections())
 
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
-    def __str__(self):
-        return str(self.id) + ' connectedTo: '+ str([x.id for x in self.connectedTo])
+    def __repr__(self):
+        return str(self.id)
     def getConnections(self):
         return self.connectedTo
     def getId(self):
