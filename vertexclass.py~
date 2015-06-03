@@ -1,53 +1,51 @@
 import sys
+import disease
 
 class Vertex:
     def __init__(self,key,disease):
         self.id = key
-        self.connectedTo = {}
-<<<<<<< HEAD
+        self.connectedTo = []
         self.disease = disease
-        self.status = 'S'  #S = 1, I = 2, R = 3. Use random numbers to assign.
         self.pred = None #Track infection
-        self.lengthOfInfection 
+        self.status = 'S' 
+        self.nextStatue = 'S'
+
+<<<<<<< HEAD
+    def addNeighbor(self,nbr):
+        self.connectedTo = self.connectedTo + [nbr]
+        #print(self.getConnections())
+        #print(nbr.getConnections())
 =======
-        self.status = 'S'
-        #self.cost = {}
->>>>>>> 2d144294378ad00971b4d97dd8fba4f13d8b0f36
     def addNeighbor(self,nbr,weight=0):
-        self.connectedTo[nbr] = weight
-        
+        self.connectedTo.append(nbr)
+>>>>>>> a2e6932e14d8f5eeeb5da85b9e8b511c93c66aea
+        if self not in nbr.getConnections():
+            nbr.addNeighbor(self)
     def __str__(self):
         return str(self.id) + ' connectedTo: '+ str([x.id for x in self.connectedTo])
     def getConnections(self):
-        return self.connectedTo.keys()
+        return self.connectedTo
     def getId(self):
         return self.id
-    def getWeight(self,nbr):
-        return self.connectedTo[nbr]
-<<<<<<< HEAD
-    def setColor(self,color):
-        self.color = color
-    def setDistance(self,d):
-        self.dist = d
+
+
     def setPred(self,p):
         self.pred = p
-    def setDiscovery(self,dtime):
-        self.disc = dtime
-    def setFinish(self,ftime):
-        self.fin = ftime
-    def getFinish(self):
-        return self.fin
-    def getDiscovery(self):
-        return self.disc
     def getPred(self):
         return self.pred
-    def getDistance(self):
-        return self.dist
-    def getColor(self):
-        return self.color
-=======
     def setStatus(self,status):
         self.status = status
     def getStatus(self):
         return self.status
->>>>>>> 2d144294378ad00971b4d97dd8fba4f13d8b0f36
+
+    def update(self):
+        '''THis is a cool comment thing'''
+        return None
+
+def main():
+    d = disease.Disease(3,.45,.1)
+    v = Vertex('A',d)
+    print(v.update.__doc__)
+    print("HELLO")
+if __name__ == "__main__":
+    main()
