@@ -10,15 +10,12 @@ class Vertex:
         self.status = 'S' 
         self.nextStatue = 'S'
 
-<<<<<<< HEAD
+
     def addNeighbor(self,nbr):
         self.connectedTo = self.connectedTo + [nbr]
         #print(self.getConnections())
         #print(nbr.getConnections())
-=======
-    def addNeighbor(self,nbr,weight=0):
-        self.connectedTo.append(nbr)
->>>>>>> a2e6932e14d8f5eeeb5da85b9e8b511c93c66aea
+
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
     def __str__(self):
@@ -39,7 +36,12 @@ class Vertex:
         return self.status
 
     def update(self):
-        '''THis is a cool comment thing'''
+        '''
+        This function updates the status of the vertex by
+        looking at it's neighbors and for each infected, 
+        it 
+
+        '''
         return None
 
 def main():
