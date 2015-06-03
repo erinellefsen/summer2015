@@ -33,49 +33,11 @@ class Graph:
 def main():
 
     g = Graph(3, .45, .1, .1)
-    g.makeVertices(100)
+    g.makeVertices(40)
     g.makeConnections(.25)
     for i in range(0,15):
         g.update()
         print(g.getVertices())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
