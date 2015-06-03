@@ -17,11 +17,8 @@ class Vertex:
         if self not in nbr.getConnections():
             nbr.addNeighbor(self)
     def __repr__(self):
-<<<<<<< HEAD
         return str(self.id) + " : "+ self.status
-=======
-        return str(self.id)
->>>>>>> fc6c14e3083ca954599c8d12a91db2e5253d89cf
+
     def getConnections(self):
         return self.connectedTo
     def getId(self):

@@ -5,7 +5,7 @@ class Disease:
         self.contagion = p
         self.recovprob = r
         self.infectiontime = 0
-    def timeChange(self):
+    def timeInc(self):
         self.infectiontime += 1
     def checkRecovered(self):
         if self.infectiontime > self.duration or random.random() < self.recovprob:
