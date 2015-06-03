@@ -1,24 +1,26 @@
 import sys
+import disease
 
 class Vertex:
     def __init__(self,key,disease):
         self.id = key
-        self.connectedTo = {}
+        self.connectedTo = []
         self.disease = disease
         self.pred = None #Track infection
-        self.status = 'S'
+        self.status = 'S' 
+        self.nextStatue = 'S'
 
     def addNeighbor(self,nbr,weight=0):
-        self.connectedTo[nbr] = weight
-        
+        self.connectedTo.append(nbr)
+        if self not in nbr.getConnections():
+            nbr.addNeighbor(self)
     def __str__(self):
         return str(self.id) + ' connectedTo: '+ str([x.id for x in self.connectedTo])
     def getConnections(self):
-        return self.connectedTo.keys()
+        return self.connectedTo
     def getId(self):
         return self.id
-    def getWeight(self,nbr):
-        return self.connectedTo[nbr]
+
 
     def setPred(self,p):
         self.pred = p
@@ -29,3 +31,14 @@ class Vertex:
     def getStatus(self):
         return self.status
 
+    def update(self):
+        '''THis is a cool comment thing'''
+        return None
+
+def main():
+    d = disease.Disease(3,.45,.1)
+    v = Vertex('A',d)
+    print(v.update.__doc__)
+    print("HELLO")
+if __name__ == "__main__":
+    main()
