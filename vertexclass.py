@@ -18,7 +18,7 @@ class Vertex:
             nbr.addNeighbor(self)
     def __repr__(self):
 
-        return self.status
+        return self.id
 
 
     def getConnections(self):
