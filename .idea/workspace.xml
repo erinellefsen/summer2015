@@ -26,7 +26,7 @@
       <file leaf-file-name="graph.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="167" column="8" selection-start="5614" selection-end="5614" vertical-scroll-proportion="0.39408866" vertical-offset="2265" max-vertical-offset="3015">
+            <state line="46" column="14" selection-start="1361" selection-end="1361" vertical-scroll-proportion="-2.817734" vertical-offset="2406" max-vertical-offset="3015">
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -37,7 +37,7 @@
       <file leaf-file-name="scratch.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="65" selection-start="1116" selection-end="1232" vertical-scroll-proportion="0.0" vertical-offset="171" max-vertical-offset="780">
+            <state line="40" column="65" selection-start="1116" selection-end="1232" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
               <folding />
             </state>
           </provider>
@@ -46,7 +46,7 @@
       <file leaf-file-name="vertexclass.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vertexclass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="15" selection-start="1073" selection-end="1073" vertical-scroll-proportion="0.0" vertical-offset="666" max-vertical-offset="1275">
+            <state line="47" column="15" selection-start="1073" selection-end="1073" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275">
               <folding />
             </state>
           </provider>
@@ -600,7 +600,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="8" selection-start="5614" selection-end="5614" vertical-scroll-proportion="0.39408866" vertical-offset="2265" max-vertical-offset="3015">
+        <state line="46" column="14" selection-start="1361" selection-end="1361" vertical-scroll-proportion="-2.817734" vertical-offset="2406" max-vertical-offset="3015">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
