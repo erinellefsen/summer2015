@@ -36,16 +36,16 @@ class Vertex:
     def getStatus(self):
         return self.status
 
-    def initialInfect(self):
-        self.status = "I"
-        self.nextStatus = "I"
+    def initialStatus(self,s):
+        self.status = s
+        self.nextStatus = s
     def incInfection(self):
         '''
         This function is called on infected individuals and updates
         how long they've been infected
         '''
         self.disease.timeInc()
-    def update(self):
+    def updateVertex(self):
         '''
         This function updates the status of the vertex by
         looking at it's neighbors and for each infected, 
