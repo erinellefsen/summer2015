@@ -31,44 +31,43 @@ class Graph:
                         item.addNeighbor(item2)
 
 
-    def update(self, numrepetitions):
-        epidemic = False
+    def update(self, numrepetitions, numtrials):
+        epidemicfor10 = 0
+        epidemicfor5 = 0
+        for x in range(numtrials):
+            epidemic = False
 
-        for stuff in range(0,numrepetitions):
-            s = 0
-            i = 0
-            r = 0
+            for stuff in range(0,numrepetitions):
+                s = 0
+                i = 0
+                r = 0
 
-            for item in self.vertices:
-                if item.getStatus() == 'S':
-                   s += 1
-                if item.getStatus() == 'I':
-                    i += 1
-                if item.getStatus() == 'R':
-                    r += 1
-                item.update()
+                for item in self.vertices:
+                    if item.getStatus() == 'S':
+                        s += 1
+                    if item.getStatus() == 'I':
+                        i += 1
+                    if item.getStatus() == 'R':
+                        r += 1
+                    item.update()
                 if i > .05*len(self.vertices):
                     epidemic = True
 
-            self.ilist = self.ilist + [i]
-            self.rlist = self.rlist + [r]
-            self.iandrlist = self.iandrlist + [i+r]
-            #print("S is",s,"I is",i,"R is",r)
+                self.ilist = self.ilist + [i]
+                self.rlist = self.rlist + [r]
+                self.iandrlist = self.iandrlist + [i+r]
+                #print("S is",s,"I is",i,"R is",r)
 
-        newlist = []
-        for item in range(len(self.ilist)-1):
-            newlist = newlist + [self.ilist[item + 1] - self.ilist[item]]
-        newlist2 = []
-        for item in range(len(self.rlist) -1):
-            newlist2 = newlist2 + [self.rlist[item+1] - self.rlist[item]]
-        newlist3 = []
-        for item in range(len(self.iandrlist)-1):
-            newlist3 = newlist3 + [self.iandrlist[item+1] - self.iandrlist[item]]
-        if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
-            print("epidemic?",'10% at end:', True,",", ".05% I:", epidemic)
-        else:
-            print("epidemic?",'10% at end:', False,",", ".05% I:", epidemic)
+            if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
+                #print("epidemic?",'10% at end:', True,",", ".05% I:", epidemic)
+                epidemicfor10 += 1
+            elif epidemic:
+                epidemicfor5 += 1
+            else:
+                epidemicfor10+=0
+                #print("epidemic?",'10% at end:', False,",", ".05% I:", epidemic)
 
+        print(epidemicfor10/numtrials, epidemicfor5/numtrials)
 
 
 
@@ -76,10 +75,10 @@ class Graph:
 def main():
 
     #duration,prob of infection, prob of recov, initial infection
-    g = Graph(2, .02, 0, .01)
+    g = Graph(3, .02, 0, .01)
     g.makeVertices(500)         # of people
     g.makeConnections(.02)         #prob they are connected
-    g.update(100)
+    g.update(50,30)                   #number of repetitions, num trials
 
 
 if __name__ == "__main__":

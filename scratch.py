@@ -33,3 +33,15 @@ def main():
 
         count += 1
         print("End case ",count)
+
+
+
+newlist = []
+for item in range(len(self.ilist)-1):
+    newlist = newlist + [self.ilist[item + 1] - self.ilist[item]]
+newlist2 = []
+for item in range(len(self.rlist) -1):
+    newlist2 = newlist2 + [self.rlist[item+1] - self.rlist[item]]
+newlist3 = []
+for item in range(len(self.iandrlist)-1):
+    newlist3 = newlist3 + [self.iandrlist[item+1] - self.iandrlist[item]]
