@@ -33,7 +33,7 @@ class Graph:
 
     def update(self, numrepetitions):
         epidemic = False
-
+        #  countStatuses
         for stuff in range(0,numrepetitions):
             s = 0
             i = 0
@@ -47,6 +47,7 @@ class Graph:
                 if item.getStatus() == 'R':
                     r += 1
                 item.update()
+                #highConcentrationEpidemic
                 if i > .05*len(self.vertices):
                     epidemic = True
 
