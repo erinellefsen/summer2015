@@ -21,6 +21,7 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
+
     def resetGraph(self):
         '''We need to save the original state of the graph'''
         self.resetCounts()
@@ -157,21 +158,36 @@ class Graph:
 
 
 def main():
-    trials = 30
-    HighEpi = 0
-    FinalEpi = 0
-    for x in range(trials):
+    vaccinationpercent = 0
+    orderedpairlistHighEpi = []
+    orderedpairlistLowEpi = []
+    for y in 'ABCDEFGHIJ':
+        trials = 30
+        HighEpi = 0
+        FinalEpi = 0
+        for x in range(trials):
 
-        g = Graph(2, .02, 0, .03, .2)   #k,p,r,%infected,%vaccinated
-        g.makeVertices(1000)         #of people
-        g.makeConnections(.01)         #prob they are connected
-        g.update(50)            #number of repetitions, num trials
-        if g.getHighEpi():
-            HighEpi +=1
-        if g.getFinalEpi():
-            FinalEpi +=1
-        print(g.getStatuses())
-    print("for high Epi:", (HighEpi/trials)*100,"%", "for final Epi",(FinalEpi/trials)*100,"%")
+            g = Graph(2, .02, 0, .03, vaccinationpercent)   #k,p,r,%infected,%vaccinated
+            g.makeVertices(100)         #of people
+            g.makeConnections(.02)         #prob they are connected
+            g.update(50)            #number of repetitions, num trials
+            if g.getHighEpi():
+                HighEpi +=1
+            if g.getFinalEpi():
+                FinalEpi +=1
+        orderedpairlistHighEpi = orderedpairlistHighEpi + [[vaccinationpercent,(HighEpi/trials)*100]]
+        orderedpairlistLowEpi = orderedpairlistLowEpi + [[vaccinationpercent, (FinalEpi/trials)*100]]
+
+        y = (vaccinationpercent,(HighEpi/trials)*100 , (FinalEpi/trials)*100)
+        vaccinationpercent += .1
+    print(orderedpairlistHighEpi)
+    print(orderedpairlistLowEpi)
+
+
+
+
+
+
 
 
 
