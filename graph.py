@@ -67,7 +67,7 @@ class Graph:
                 epidemicfor10+=0
                 #print("epidemic?",'10% at end:', False,",", ".05% I:", epidemic)
 
-        print(epidemicfor10/numtrials, epidemicfor5/numtrials)
+        print(epidemicfor10/numtrials*100,"%", "epidemic for 10% at end", epidemicfor5/numtrials*100,"%","epidemic for 5% at any time")
 
 
 
