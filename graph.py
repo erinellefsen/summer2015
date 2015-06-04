@@ -1,76 +1,122 @@
 import vertexclass
 import disease
 import random
+import copy 
 class Graph:
     def __init__(self,k,p,r,initinfect, vaccinated = 0):
         self.vertices = []
         self.k = k
         self.p = p
         self.r = r
-        self.infect = initinfect
+        self.infectRate = initinfect
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
+        self.numS = 0
+        self.numI = 0
+        self.numR = 0
+        self.highEpi = False
+        self.finalEpi = False
+        self.highThreshold = .05
+        self.finalThreshold = .1
+        self.original = []
+    def resetGraph(self):
+        '''We need to save the original state of the graph'''
+        self.resetCounts()
+        self.resetLists()
+        self.resetBools()
+        self.vertices = copy.deepcopy(self.original)
+
 
     def getVertices(self):
         return self.vertices
 
     def makeVertices(self,numVertices):
+        '''Helper function that creates all of the graphs vertex objects'''
         for item in range(0,numVertices):
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
-            if random.random() < self.infect:
+            if random.random() < self.infectRate:
                 v.initialInfect()
 
 
-    def makeConnections(self,x):
+    def makeConnections(self,probOfConnection): #added more discriptive parameter
+        '''Helper Function that creates all of the graphs connections'''
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < x:
+                    if random.random() < probOfConnection:
                         item.addNeighbor(item2)
+    
+    def saveOriginal(self):
+        '''This function saves the first state of the graph, after vertices and connections have been made'''
+        if self.original == []:
+            self.original = copy.deepcopy(self.vertices)
+                    
+    def makeVerticesAndConnections(self,numVertices,probOfConnection):
+        self.makeVertices(numVertices)
+        self.makeConnections(probOfConnection)
+        self.saveOriginal()
 
+    def resetLists(self):
+        self.ilist,self.rlist,self.iandrlist = [],[],[]
+    def resetBools(self):
+        self.highEpi,self.finalEpi = False,False
+    def resetCounts(self):
+        '''Helper Function for countAndUpdateStatuses'''
+        self.numS, self.numR, self.numI = 0,0,0
+    def countAndUpdateStatuses(self):
+        '''Helper Function for update'''
+        self.resetCounts()
+        for item in self.vertices:
+            if item.getStatus() == 'S':
+                self.numS += 1
+            if item.getStatus() == 'I':
+                self.numI += 1
+            if item.getStatus() == 'R':
+                self.numR += 1
+            item.updateVertex()
+            
+    def updateLists(self):
+        '''Helper function for update'''
+        self.ilist = self.ilist + [self.numI] 
+        self.rlist = self.rlist + [self.numR]
+        self.iandrlist = self.iandrlist + [self.numI+self.numR]
 
-    def update(self, numrepetitions, numtrials):
-        epidemicfor10 = 0
-        epidemicfor5 = 0
-        for x in range(numtrials):
-            epidemic = False
+    def checkHighConcentrationEpi(self):
+        '''Helper Function for update'''
+        if self.numI > self.highTreshold*len(self.vertices):
+            self.highEpi = True
+    def checkFinalEpi(self):
+        '''Help Function for update '''
+        if self.iandrlist[len(self.iandrlist)-1] > self.finalThreshold*len(self.vertices):
+            self.finalEpi = True
 
-            for stuff in range(0,numrepetitions):
-                s = 0
-                i = 0
-                r = 0
+    def getCurrentState(self):
+        '''returns the current state of the graph'''
+        return self.vertices
 
-                for item in self.vertices:
-                    if item.getStatus() == 'S':
-                        s += 1
-                    if item.getStatus() == 'I':
-                        i += 1
-                    if item.getStatus() == 'R':
-                        r += 1
-                    item.update()
-                if i > .05*len(self.vertices):
-                    epidemic = True
+    def update(self, numrepetitions):
+        '''The update function goes through and updates the  '''
+        for stuff in range(0,numrepetitions):
+            self.countAndUpdateStatuses()
+            self.updateLists()
+            self.checkHighConcentrationEpi()
 
-                self.ilist = self.ilist + [i]
-                self.rlist = self.rlist + [r]
-                self.iandrlist = self.iandrlist + [i+r]
-                #print("S is",s,"I is",i,"R is",r)
-
-            if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
-                #print("epidemic?",'10% at end:', True,",", ".05% I:", epidemic)
-                epidemicfor10 += 1
-            elif epidemic:
-                epidemicfor5 += 1
-            else:
-                epidemicfor10+=0
-                #print("epidemic?",'10% at end:', False,",", ".05% I:", epidemic)
-
-
-        print(epidemicfor10/numtrials*100,"%", "epidemic for 10% at end", epidemicfor5/numtrials*100,"%","epidemic for 5% at any time")
-
-
+        self.checkFinalEpi()
+        
+    def getEpis(self):
+        '''
+        Returns boolean values for if epidemics occured. 
+        output: finalEpi, highEpi
+        '''
+        return self.getFinalEpi(), self.getHighEpi()
+    def getFinalEpi(self):
+        '''returns finalEpi, a boolean that says whether an overall epidemic occured  '''
+        return self.finalEpi
+    def getHighEpi(self):
+        '''returns highEpi, a boolean that says whether a high concentration epidemic occured  '''
+        return self.highEpi
 
 
 def main():
