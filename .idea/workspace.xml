@@ -26,7 +26,7 @@
       <file leaf-file-name="graph.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="80" selection-start="2360" selection-end="2360" vertical-scroll-proportion="2.8051949" vertical-offset="0" max-vertical-offset="1365">
+            <state line="87" column="10" selection-start="2840" selection-end="2840" vertical-scroll-proportion="0.72727275" vertical-offset="1025" max-vertical-offset="1410">
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -37,7 +37,7 @@
       <file leaf-file-name="scratch.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="73" selection-start="1481" selection-end="1481" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+            <state line="40" column="65" selection-start="1116" selection-end="1232" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
               <folding />
             </state>
           </provider>
@@ -46,7 +46,7 @@
       <file leaf-file-name="vertexclass.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vertexclass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="13" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275">
+            <state line="38" column="30" selection-start="815" selection-end="815" vertical-scroll-proportion="0.0" vertical-offset="322" max-vertical-offset="1275">
               <folding />
             </state>
           </provider>
@@ -55,7 +55,7 @@
       <file leaf-file-name="disease.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/disease.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="27" selection-start="624" selection-end="624" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+            <state line="21" column="27" selection-start="624" selection-end="624" vertical-scroll-proportion="0.0" vertical-offset="97" max-vertical-offset="495">
               <folding />
             </state>
           </provider>
@@ -72,8 +72,8 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/disease.py" />
-        <option value="$PROJECT_DIR$/vertexclass.py" />
         <option value="$PROJECT_DIR$/scratch.py" />
+        <option value="$PROJECT_DIR$/vertexclass.py" />
         <option value="$PROJECT_DIR$/graph.py" />
       </list>
     </option>
@@ -492,21 +492,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vertexclass.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="13" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275">
+        <state line="38" column="30" selection-start="815" selection-end="815" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="1275">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="73" selection-start="1481" selection-end="1481" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+        <state line="40" column="65" selection-start="1116" selection-end="1232" vertical-scroll-proportion="0.0" vertical-offset="382" max-vertical-offset="780">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="80" selection-start="2360" selection-end="2360" vertical-scroll-proportion="2.8051949" vertical-offset="0" max-vertical-offset="1365">
+        <state line="87" column="10" selection-start="2840" selection-end="2840" vertical-scroll-proportion="0.72727275" vertical-offset="1025" max-vertical-offset="1410">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

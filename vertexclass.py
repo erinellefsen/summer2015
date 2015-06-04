@@ -36,9 +36,9 @@ class Vertex:
     def getStatus(self):
         return self.status
 
-    def initialInfect(self):
-        self.status = "I"
-        self.nextStatus = "I"
+    def initialStatus(self,s):
+        self.status = s
+        self.nextStatus = s
     def incInfection(self):
         '''
         This function is called on infected individuals and updates

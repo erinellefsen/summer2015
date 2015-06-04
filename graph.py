@@ -11,6 +11,7 @@ class Graph:
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
+        self.vaccine = vaccinated
 
     def getVertices(self):
         return self.vertices
@@ -20,7 +21,9 @@ class Graph:
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
             if random.random() < self.infect:
-                v.initialInfect()
+                v.initialStatus("I")
+            if v.getStatus() != "I" and random.random() <  self.vaccine:
+                v.initialStatus("V")
 
 
     def makeConnections(self,x):
@@ -75,10 +78,10 @@ class Graph:
 def main():
 
     #duration,prob of infection, prob of recov, initial infection
-    g = Graph(3, .02, 0, .01)
+    g = Graph(3, .02, 0, .01, .10)
     g.makeVertices(500)         # of people
     g.makeConnections(.02)         #prob they are connected
-    g.update(50,30)                   #number of repetitions, num trials
+    g.update(50,100)                   #number of repetitions, num trials
 
 
 if __name__ == "__main__":
