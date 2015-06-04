@@ -59,29 +59,30 @@ class Graph:
                 self.ilist = self.ilist + [i]
                 self.rlist = self.rlist + [r]
                 self.iandrlist = self.iandrlist + [i+r]
-                #print("S is",s,"I is",i,"R is",r)
+                print("S is",s,"I is",i,"R is",r)
 
-            if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
+            if self.iandrlist[len(self.iandrlist)-1] > .1*len(self.vertices):
                 #print("epidemic?",'10% at end:', True,",", ".05% I:", epidemic)
                 epidemicfor10 += 1
-            elif epidemic:
-                epidemicfor5 += 1
+                if epidemic:
+                    epidemicfor5 += 1
             else:
                 epidemicfor10+=0
                 #print("epidemic?",'10% at end:', False,",", ".05% I:", epidemic)
-
-        print(epidemicfor10/numtrials*100,"%", "epidemic for 10% at end", epidemicfor5/numtrials*100,"%","epidemic for 5% at any time")
+                if epidemic:
+                    epidemicfor5 +=1
+        print(epidemicfor10/numtrials*100,"%", "epidemic for 10% total", epidemicfor5/numtrials*100,"%","epidemic for 5% I at any time")
 
 
 
 
 def main():
 
-    #duration,prob of infection, prob of recov, initial infection
-    g = Graph(3, .02, 0, .01, .10)
+    #duration,prob of infection, prob of recov, initial infection, vaccination percentage
+    g = Graph(1, .05, 0, .015, .05)
     g.makeVertices(500)         # of people
-    g.makeConnections(.02)         #prob they are connected
-    g.update(50,100)                   #number of repetitions, num trials
+    g.makeConnections(.09)         #prob they are connected
+    g.update(50,2)                   #number of repetitions, num trials
 
 
 if __name__ == "__main__":
