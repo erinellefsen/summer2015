@@ -2,16 +2,25 @@ import vertexclass
 import disease
 import random
 class Graph:
-    def __init__(self,k,p,r,initinfect, vaccinated = 0):
+    def __init__(self,k,p,r,initinfect, vaccinated = 0.0):
         self.vertices = []
         self.k = k
         self.p = p
         self.r = r
-        self.infect = initinfect
+        self.infectRate = initinfect
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
+        self.numS = 0
+        self.numI = 0
+        self.numR = 0
+        self.highEpi = False
+        self.finalEpi = False
         self.vaccine = vaccinated
+    
+    def resetGraph(self):
+        '''We need to save the original state of the graph'''
+        pass
 
     def getVertices(self):
         return self.vertices
@@ -20,7 +29,7 @@ class Graph:
         for item in range(0,numVertices):
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
-            if random.random() < self.infect:
+            if random.random() < self.infectRate:
                 v.initialStatus("I")
             if v.getStatus() != "I" and random.random() <  self.vaccine:
                 v.initialStatus("V")
@@ -34,55 +43,72 @@ class Graph:
                         item.addNeighbor(item2)
 
 
-    def update(self, numrepetitions, numtrials):
-        epidemicfor10 = 0
-        epidemicfor5 = 0
-        for x in range(numtrials):
-            epidemic = False
+    def countAndUpdateStatuses(self):
+        '''Helper Function for update'''
+        self.numS = 0
+        self.numR = 0
+        self.numI = 0
+        for item in self.vertices:
+            if item.getStatus() == 'S':
+                self.numS += 1
+            if item.getStatus() == 'I':
+                self.numI += 1
+            if item.getStatus() == 'R':
+                self.numR += 1
+            item.updateVertex()
 
-            for stuff in range(0,numrepetitions):
-                s = 0
-                i = 0
-                r = 0
+    def getStatuses(self):
+        return self.numS, self.numI, self.numR
+            
+    def updateLists(self):
+        '''Helper function for update'''
+        self.ilist = self.ilist + [self.numI] 
+        self.rlist = self.rlist + [self.numR]
+        self.iandrlist = self.iandrlist + [self.numI+self.numR]
+    def checkHighConcentrationEpi(self):
+        '''Helper Function for update'''
+        if self.numI > .05*len(self.vertices):
+            self.highEpi = True
+    def checkFinalEpi(self):
+        '''Help Function for update '''
+        if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
+            self.finalEpi = True
+    def update(self, numrepetitions):
+        for stuff in range(0,numrepetitions):
+            self.countAndUpdateStatuses()
+            self.updateLists()
+            self.checkHighConcentrationEpi()
 
-                for item in self.vertices:
-                    if item.getStatus() == 'S':
-                        s += 1
-                    if item.getStatus() == 'I':
-                        i += 1
-                    if item.getStatus() == 'R':
-                        r += 1
-                    item.update()
-                if i > .05*len(self.vertices):
-                    epidemic = True
+        self.checkFinalEpi()
 
-                self.ilist = self.ilist + [i]
-                self.rlist = self.rlist + [r]
-                self.iandrlist = self.iandrlist + [i+r]
-                print("S is",s,"I is",i,"R is",r)
-
-            if self.iandrlist[len(self.iandrlist)-1] > .1*len(self.vertices):
-                #print("epidemic?",'10% at end:', True,",", ".05% I:", epidemic)
-                epidemicfor10 += 1
-                if epidemic:
-                    epidemicfor5 += 1
-            else:
-                epidemicfor10+=0
-                #print("epidemic?",'10% at end:', False,",", ".05% I:", epidemic)
-                if epidemic:
-                    epidemicfor5 +=1
-        print(epidemicfor10/numtrials*100,"%", "epidemic for 10% total", epidemicfor5/numtrials*100,"%","epidemic for 5% I at any time")
-
-
+    def getEpis(self):
+        '''Returns boolean values for if epidemics occured. 
+        output: finalEpi, highEpi
+        '''
+        return self.getFinalEpi(), self.getHighEpi()
+    def getFinalEpi(self):
+        return self.finalEpi
+    def getHighEpi(self):
+        return self.highEpi
 
 
 def main():
+    trials = 30
+    HighEpi = 0
+    FinalEpi = 0
+    for x in range(trials):
 
-    #duration,prob of infection, prob of recov, initial infection, vaccination percentage
-    g = Graph(1, .05, 0, .015, .05)
-    g.makeVertices(500)         # of people
-    g.makeConnections(.09)         #prob they are connected
-    g.update(50,2)                   #number of repetitions, num trials
+        g = Graph(2, .02, 0, .03, .2)   #k,p,r,%infected,%vaccinated
+        g.makeVertices(1000)         #of people
+        g.makeConnections(.01)         #prob they are connected
+        g.update(50)            #number of repetitions, num trials
+        if g.getHighEpi():
+            HighEpi +=1
+        if g.getFinalEpi():
+            FinalEpi +=1
+        print(g.getStatuses())
+    print("for high Epi:", (HighEpi/trials)*100,"%", "for final Epi",(FinalEpi/trials)*100,"%")
+
 
 
 if __name__ == "__main__":

@@ -45,7 +45,7 @@ class Vertex:
         how long they've been infected
         '''
         self.disease.timeInc()
-    def update(self):
+    def updateVertex(self):
         '''
         This function updates the status of the vertex by
         looking at it's neighbors and for each infected, 
