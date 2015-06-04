@@ -32,6 +32,8 @@ class Graph:
 
 
     def update(self, numrepetitions):
+        epidemic = False
+
         for stuff in range(0,numrepetitions):
             s = 0
             i = 0
@@ -45,10 +47,14 @@ class Graph:
                 if item.getStatus() == 'R':
                     r += 1
                 item.update()
+                if i > .05*len(self.vertices):
+                    epidemic = True
+
             self.ilist = self.ilist + [i]
             self.rlist = self.rlist + [r]
             self.iandrlist = self.iandrlist + [i+r]
             #print("S is",s,"I is",i,"R is",r)
+
         newlist = []
         for item in range(len(self.ilist)-1):
             newlist = newlist + [self.ilist[item + 1] - self.ilist[item]]
@@ -58,19 +64,22 @@ class Graph:
         newlist3 = []
         for item in range(len(self.iandrlist)-1):
             newlist3 = newlist3 + [self.iandrlist[item+1] - self.iandrlist[item]]
-        print(newlist3,sum(newlist3))
+        if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
+            print("epidemic?",'10% at end:', True,",", ".05% I:", epidemic)
+        else:
+            print("epidemic?",'10% at end:', False,",", ".05% I:", epidemic)
 
 
 
 
 
 def main():
-    for x in range(10):
+
     #duration,prob of infection, prob of recov, initial infection
-        g = Graph(3, .02, .1, .01)
-        g.makeVertices(100)         # of people
-        g.makeConnections(.03)         #prob they are connected
-        g.update(40)
+    g = Graph(2, .02, 0, .01)
+    g.makeVertices(500)         # of people
+    g.makeConnections(.02)         #prob they are connected
+    g.update(100)
 
 
 if __name__ == "__main__":
