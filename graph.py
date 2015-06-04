@@ -3,7 +3,7 @@ import disease
 import random
 import copy 
 class Graph:
-    def __init__(self,k,p,r,initinfect, vaccinated = 0):
+    def __init__(self,k,p,r,initinfect, vaccinated = 0.0):
         self.vertices = []
         self.k = k
         self.p = p
@@ -17,6 +17,8 @@ class Graph:
         self.numR = 0
         self.highEpi = False
         self.finalEpi = False
+        self.vaccine = vaccinated
+<<<<<<< HEAD
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
@@ -27,7 +29,6 @@ class Graph:
         self.resetBools()
         self.vertices = copy.deepcopy(self.original)
 
-
     def getVertices(self):
         return self.vertices
 
@@ -37,7 +38,10 @@ class Graph:
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
             if random.random() < self.infectRate:
-                v.initialInfect()
+                v.initialStatus("I")
+            if v.getStatus() != "I" and random.random() <  self.vaccine:
+                v.initialStatus("V")
+
 
 
     def makeConnections(self,probOfConnection): #added more discriptive parameter
@@ -96,18 +100,51 @@ class Graph:
         '''returns the current state of the graph'''
         return self.vertices
 
+    def countAndUpdateStatuses(self):
+        '''Helper Function for update'''
+        self.numS = 0
+        self.numR = 0
+        self.numI = 0
+        for item in self.vertices:
+            if item.getStatus() == 'S':
+                self.numS += 1
+            if item.getStatus() == 'I':
+                self.numI += 1
+            if item.getStatus() == 'R':
+                self.numR += 1
+            item.updateVertex()
+
+    def getStatuses(self):
+        return self.numS, self.numI, self.numR
+            
+    def updateLists(self):
+        '''Helper function for update'''
+        self.ilist = self.ilist + [self.numI] 
+        self.rlist = self.rlist + [self.numR]
+        self.iandrlist = self.iandrlist + [self.numI+self.numR]
+    def checkHighConcentrationEpi(self):
+        '''Helper Function for update'''
+        if self.numI > .05*len(self.vertices):
+            self.highEpi = True
+    def checkFinalEpi(self):
+        '''Help Function for update '''
+        if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
+            self.finalEpi = True
     def update(self, numrepetitions):
-        '''The update function goes through and updates the  '''
         for stuff in range(0,numrepetitions):
             self.countAndUpdateStatuses()
             self.updateLists()
             self.checkHighConcentrationEpi()
 
         self.checkFinalEpi()
+
         
+
+
+
     def getEpis(self):
-        '''
-        Returns boolean values for if epidemics occured. 
+        '''Returns boolean values for if epidemics occured. 
+
         output: finalEpi, highEpi
         '''
         return self.getFinalEpi(), self.getHighEpi()
@@ -116,16 +153,27 @@ class Graph:
         return self.finalEpi
     def getHighEpi(self):
         '''returns highEpi, a boolean that says whether a high concentration epidemic occured  '''
+
         return self.highEpi
 
 
 def main():
+    trials = 30
+    HighEpi = 0
+    FinalEpi = 0
+    for x in range(trials):
 
-    #duration,prob of infection, prob of recov, initial infection
-    g = Graph(2, .02, 0, .01)   #k,p,r,%infected
-    g.makeVertices(500)         # of people
-    g.makeConnections(.02)         #prob they are connected
-    g.update(50,30)                   #number of repetitions, num trials
+        g = Graph(2, .02, 0, .03, .2)   #k,p,r,%infected,%vaccinated
+        g.makeVertices(1000)         #of people
+        g.makeConnections(.01)         #prob they are connected
+        g.update(50)            #number of repetitions, num trials
+        if g.getHighEpi():
+            HighEpi +=1
+        if g.getFinalEpi():
+            FinalEpi +=1
+        print(g.getStatuses())
+    print("for high Epi:", (HighEpi/trials)*100,"%", "for final Epi",(FinalEpi/trials)*100,"%")
+
 
 
 if __name__ == "__main__":
