@@ -17,6 +17,7 @@ class Graph:
         self.numR = 0
         self.highEpi = False
         self.finalEpi = False
+        self.vaccine = vaccinated
 <<<<<<< HEAD
         self.highThreshold = .05
         self.finalThreshold = .1
@@ -28,14 +29,6 @@ class Graph:
         self.resetBools()
         self.vertices = copy.deepcopy(self.original)
 
-=======
-        self.vaccine = vaccinated
-    
-    def resetGraph(self):
-        '''We need to save the original state of the graph'''
-        pass
->>>>>>> 26744adf9680ae90ca2fd0005af03d3399eca527
-
     def getVertices(self):
         return self.vertices
 
@@ -45,13 +38,10 @@ class Graph:
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
             if random.random() < self.infectRate:
-<<<<<<< HEAD
-                v.initialInfect()
-=======
                 v.initialStatus("I")
             if v.getStatus() != "I" and random.random() <  self.vaccine:
                 v.initialStatus("V")
->>>>>>> 26744adf9680ae90ca2fd0005af03d3399eca527
+
 
 
     def makeConnections(self,probOfConnection): #added more discriptive parameter
@@ -110,11 +100,6 @@ class Graph:
         '''returns the current state of the graph'''
         return self.vertices
 
-<<<<<<< HEAD
-    def update(self, numrepetitions):
-        '''The update function goes through and updates the  '''
-=======
-
     def countAndUpdateStatuses(self):
         '''Helper Function for update'''
         self.numS = 0
@@ -146,36 +131,29 @@ class Graph:
         if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
             self.finalEpi = True
     def update(self, numrepetitions):
->>>>>>> 26744adf9680ae90ca2fd0005af03d3399eca527
         for stuff in range(0,numrepetitions):
             self.countAndUpdateStatuses()
             self.updateLists()
             self.checkHighConcentrationEpi()
 
         self.checkFinalEpi()
-<<<<<<< HEAD
+
         
-    def getEpis(self):
-        '''
-        Returns boolean values for if epidemics occured. 
-=======
+
+
 
     def getEpis(self):
         '''Returns boolean values for if epidemics occured. 
->>>>>>> 26744adf9680ae90ca2fd0005af03d3399eca527
+
         output: finalEpi, highEpi
         '''
         return self.getFinalEpi(), self.getHighEpi()
     def getFinalEpi(self):
-<<<<<<< HEAD
         '''returns finalEpi, a boolean that says whether an overall epidemic occured  '''
         return self.finalEpi
     def getHighEpi(self):
         '''returns highEpi, a boolean that says whether a high concentration epidemic occured  '''
-=======
-        return self.finalEpi
-    def getHighEpi(self):
->>>>>>> 26744adf9680ae90ca2fd0005af03d3399eca527
+
         return self.highEpi
 
 

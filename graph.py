@@ -18,7 +18,6 @@ class Graph:
         self.highEpi = False
         self.finalEpi = False
         self.vaccine = vaccinated
-<<<<<<< HEAD
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
