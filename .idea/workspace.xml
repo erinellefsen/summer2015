@@ -23,13 +23,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="graph.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/graph.py">
+      <file leaf-file-name="test.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="204" column="0" selection-start="6971" selection-end="6971" vertical-scroll-proportion="0.73214287" vertical-offset="2650" max-vertical-offset="3210">
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state line="0" column="19" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Graphs.ipynb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graphs.ipynb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1740">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -55,7 +62,7 @@
       <file leaf-file-name="vertexclass.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vertexclass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="27" selection-start="513" selection-end="513" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1320">
+            <state line="22" column="27" selection-start="519" selection-end="519" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1305">
               <folding />
             </state>
           </provider>
@@ -86,6 +93,7 @@
         <option value="$PROJECT_DIR$/randomTest.py" />
         <option value="$PROJECT_DIR$/vertexclass.py" />
         <option value="$PROJECT_DIR$/graph.py" />
+        <option value="$PROJECT_DIR$/test.py" />
       </list>
     </option>
   </component>
@@ -382,7 +390,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="125" y="58" width="1252" height="706" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -664,17 +672,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vertexclass.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="27" selection-start="513" selection-end="513" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1320">
+        <state line="22" column="27" selection-start="519" selection-end="519" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1305">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs.ipynb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1740">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="204" column="0" selection-start="6971" selection-end="6971" vertical-scroll-proportion="0.73214287" vertical-offset="2650" max-vertical-offset="3210">
+        <state line="185" column="30" selection-start="6108" selection-end="6108" vertical-scroll-proportion="4.133929" vertical-offset="460" max-vertical-offset="3270">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="19" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="560">
+          <folding />
         </state>
       </provider>
     </entry>

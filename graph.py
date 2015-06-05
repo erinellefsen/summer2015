@@ -1,7 +1,8 @@
 import vertexclass
 import disease
 import random
-import copy 
+import copy
+import tank
 class Graph:
     def __init__(self,k,p,r,initinfect, vaccinated = 0.0):
         self.vertices = []
@@ -21,28 +22,7 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
-
-    def resetGraph(self):
-        '''We need to save the original state of the graph'''
-        self.resetCounts()
-        self.resetLists()
-        self.resetBools()
-        temp = self.spliceLst(self.original)
-        self.vertices = []
-        for i in temp:
-            self.vertices.append(copy.deepcopy(i))
-        self.vertices = copy.deepcopy(self.original)
-
-    def spliceLst(self,lst):
-        lstLst = []
-        l = len(lst)
-        step = l // 200 + 1
-        old = 0
-        for i in range(step):
-            lstLst.append(lst[old:old+200])
-            old += 200
-        return lstLst
-
+        
     def getVertices(self):
         return self.vertices
 
@@ -56,25 +36,34 @@ class Graph:
             if v.getStatus() != "I" and random.random() <  self.vaccine:
                 v.initialStatus("V")
 
-
-
-    def makeConnections(self,probOfConnection): #added more discriptive parameter
+    def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
                     if random.random() < probOfConnection:
                         item.addNeighbor(item2)
-    
-    def saveOriginal(self):
-        '''This function saves the first state of the graph, after vertices and connections have been made'''
-        if self.original == []:
-            self.original = copy.deepcopy(self.vertices)
-                    
+                        
     def makeVerticesAndConnections(self,numVertices,probOfConnection):
         self.makeVertices(numVertices)
         self.makeConnections(probOfConnection)
-        self.saveOriginal()
+        self.original = self.copyVertices(self.vertices,self.original)
+
+
+    def copyVertices(self,source,dest):
+        '''This function saves the first state of the graph, after vertices and connections have been made'''
+        source_tank = tank.Tank(source)
+        dest_tank = copy.deepcopy(source_tank)
+        source = source_tank.lift()
+        dest = dest_tank.lift()
+        return dest
+        
+    def resetGraph(self):
+        '''We need to save the original state of the graph'''
+        self.resetCounts()
+        self.resetLists()
+        self.resetBools()
+        self.vertices = self.copyVertices(self.original,self.vertices)                    
 
     def resetLists(self):
         self.ilist,self.rlist,self.iandrlist = [],[],[]
@@ -103,7 +92,7 @@ class Graph:
 
     def checkHighConcentrationEpi(self):
         '''Helper Function for update'''
-        if self.numI > self.highTreshold*len(self.vertices):
+        if self.numI > self.highThreshold*len(self.vertices):
             self.highEpi = True
     def checkFinalEpi(self):
         '''Help Function for update '''
@@ -114,36 +103,9 @@ class Graph:
         '''returns the current state of the graph'''
         return self.vertices
 
-    def countAndUpdateStatuses(self):
-        '''Helper Function for update'''
-        self.numS = 0
-        self.numR = 0
-        self.numI = 0
-        for item in self.vertices:
-            if item.getStatus() == 'S':
-                self.numS += 1
-            if item.getStatus() == 'I':
-                self.numI += 1
-            if item.getStatus() == 'R':
-                self.numR += 1
-            item.updateVertex()
-
     def getStatuses(self):
         return self.numS, self.numI, self.numR
             
-    def updateLists(self):
-        '''Helper function for update'''
-        self.ilist = self.ilist + [self.numI] 
-        self.rlist = self.rlist + [self.numR]
-        self.iandrlist = self.iandrlist + [self.numI+self.numR]
-    def checkHighConcentrationEpi(self):
-        '''Helper Function for update'''
-        if self.numI > .05*len(self.vertices):
-            self.highEpi = True
-    def checkFinalEpi(self):
-        '''Help Function for update '''
-        if self.iandrlist[len(self.iandrlist)-1] > .10*len(self.vertices):
-            self.finalEpi = True
     def update(self, numrepetitions):
         for stuff in range(0,numrepetitions):
             self.countAndUpdateStatuses()
@@ -151,10 +113,6 @@ class Graph:
             self.checkHighConcentrationEpi()
 
         self.checkFinalEpi()
-
-        
-
-
 
     def getEpis(self):
         '''Returns boolean values for if epidemics occured. 
@@ -170,11 +128,13 @@ class Graph:
 
         return self.highEpi
 
-    def __repr__(self):
-        stri = ""
-        for i in self.vertices:
-            stri += str(i)
-        return(stri)
+    #def __repr__(self):
+    #    stri = ""
+    #    for i in self.vertices:
+    #        stri += str(i) + " "
+    #    return(stri)
+    def printHi(self):
+        print("Hi")
 
 def main():
     vaccinationpercent = 0
