@@ -20,6 +20,9 @@ class Vertex:
 
         return self.id
 
+    def __str__(self):
+        return str(self.id)
+
 
     def getConnections(self):
         return self.connectedTo

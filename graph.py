@@ -27,7 +27,21 @@ class Graph:
         self.resetCounts()
         self.resetLists()
         self.resetBools()
+        temp = self.spliceLst(self.original)
+        self.vertices = []
+        for i in temp:
+            self.vertices.append(copy.deepcopy(i))
         self.vertices = copy.deepcopy(self.original)
+
+    def spliceLst(self,lst):
+        lstLst = []
+        l = len(lst)
+        step = l // 200 + 1
+        old = 0
+        for i in range(step):
+            lstLst.append(lst[old:old+200])
+            old += 200
+        return lstLst
 
     def getVertices(self):
         return self.vertices
@@ -156,6 +170,11 @@ class Graph:
 
         return self.highEpi
 
+    def __repr__(self):
+        stri = ""
+        for i in self.vertices:
+            stri += str(i)
+        return(stri)
 
 def main():
     vaccinationpercent = 0
@@ -185,11 +204,16 @@ def main():
 
 
 
+def test():
 
-
-
+    g = Graph(2, .02, 0, .03, 0)   #k,p,r,%infected,%vaccinated
+    g.makeVertices(100)         #of people
+    g.makeConnections(.02)
+    print(g)
+    g.resetGraph()
+    print(g)
 
 
 
 if __name__ == "__main__":
-    main()
+    test()
