@@ -1,10 +1,35 @@
 import graph
+
 graphLst = []
-for i in range(1000):
-    g = Graph(2, .02, 0, .01) #k,p,r,%infected                                                                                
-    g.makeVertices(500)         # of people                                                                                    
-    g.makeConnections(.02)         #prob they are connected                                                                    
+for i in range(10):
+    g = graph.Graph(2, .2, 0, .01) #k,p,r,%infected
+    g.makeVerticesAndConnections(10,.1)        #prob they are connected
     graphLst.append(g)
+
+lstLst = []
+for i in range(10):
+    lst = []
+    lstLst.append(lst)
+
+
+for index in range(len(graphLst)):
+    g = graphLst[index]
+
+    for i in range(10):
+        highEpi = 0
+        finalEpi = 0
+        g.update(10)            #number of repetitions, num trials
+        if g.getHighEpi():
+            highEpi +=1
+        if g.getFinalEpi():
+            finalEpi +=1
+        highPercent = highEpi
+        finalPercent = finalEpi
+        lstLst[i].append((highPercent,finalPercent))
+        g.resetGraph()
+
+for i in lstLst:
+    print(i, "\n\n")
 
 #What am I trying to do?
 '''  

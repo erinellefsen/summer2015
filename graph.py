@@ -27,7 +27,21 @@ class Graph:
         self.resetCounts()
         self.resetLists()
         self.resetBools()
+        temp = self.spliceLst(self.original)
+        self.vertices = []
+        for i in temp:
+            self.vertices.append(copy.deepcopy(i))
         self.vertices = copy.deepcopy(self.original)
+
+    def spliceLst(self,lst):
+        lstLst = []
+        l = len(lst)
+        step = l // 200 + 1
+        old = 0
+        for i in range(step):
+            lstLst.append(lst[old:old+200])
+            old += 200
+        return lstLst
 
     def getVertices(self):
         return self.vertices
@@ -156,6 +170,11 @@ class Graph:
 
         return self.highEpi
 
+    def __repr__(self):
+        stri = ""
+        for i in self.vertices:
+            stri += str(i)
+        return(stri)
 
 def main():
     vaccinationpercent = 0
@@ -179,10 +198,11 @@ def main():
         orderedpairlistLowEpi = orderedpairlistLowEpi + [[vaccinationpercent, (FinalEpi/trials)*100]]
 
         y = (vaccinationpercent,(HighEpi/trials)*100 , (FinalEpi/trials)*100)
+
         vaccinationpercent += .05
     print(".05 at a time" , orderedpairlistHighEpi)
     print(".10 at end time" , orderedpairlistLowEpi)
 
 
 if __name__ == "__main__":
-    main()
+    test()
