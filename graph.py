@@ -108,6 +108,19 @@ class Graph:
 
     def getStatuses(self):
         return self.numS, self.numI, self.numR
+    
+    def countAndUpdateStatuses(self):
+        '''Helper Function for update'''
+        self.resetCounts()
+        for item in self.vertices:
+            if item.getStatus() == 'S':
+                self.numS += 1
+            if item.getStatus() == 'I':
+                self.numI += 1
+            if item.getStatus() == 'R':
+                self.numR += 1
+            item.updateVertex()
+
             
     def update(self, numrepetitions):
         for stuff in range(0,numrepetitions):
