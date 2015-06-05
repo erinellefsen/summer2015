@@ -180,15 +180,15 @@ def main():
     vaccinationpercent = 0
     orderedpairlistHighEpi = []
     orderedpairlistLowEpi = []
-    for y in 'ABCDEFGHIJ':
-        trials = 30
+    while vaccinationpercent < 1:
+        trials = 60
         HighEpi = 0
         FinalEpi = 0
         for x in range(trials):
 
-            g = Graph(2, .02, 0, .03, vaccinationpercent)   #k,p,r,%infected,%vaccinated
-            g.makeVertices(100)         #of people
-            g.makeConnections(.02)         #prob they are connected
+            g = Graph(10, .02, 0, .01, vaccinationpercent)   #k,p,r,%infected,%vaccinated
+            g.makeVertices(500)         #of people
+            g.makeConnections(.01)         #prob they are connected
             g.update(50)            #number of repetitions, num trials
             if g.getHighEpi():
                 HighEpi +=1
@@ -198,21 +198,10 @@ def main():
         orderedpairlistLowEpi = orderedpairlistLowEpi + [[vaccinationpercent, (FinalEpi/trials)*100]]
 
         y = (vaccinationpercent,(HighEpi/trials)*100 , (FinalEpi/trials)*100)
-        vaccinationpercent += .1
-    print(orderedpairlistHighEpi)
-    print(orderedpairlistLowEpi)
 
-
-
-def test():
-
-    g = Graph(2, .02, 0, .03, 0)   #k,p,r,%infected,%vaccinated
-    g.makeVertices(100)         #of people
-    g.makeConnections(.02)
-    print(g)
-    g.resetGraph()
-    print(g)
-
+        vaccinationpercent += .05
+    print(".05 at a time" , orderedpairlistHighEpi)
+    print(".10 at end time" , orderedpairlistLowEpi)
 
 
 if __name__ == "__main__":
