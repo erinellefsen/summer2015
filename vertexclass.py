@@ -26,6 +26,10 @@ class Vertex:
 
     def getConnections(self):
         return self.connectedTo
+
+    def __iter__(self):
+        return iter(self.connectedTo)
+
     def getId(self):
         return self.id
 

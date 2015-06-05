@@ -31,7 +31,7 @@ class Graph:
         self.vertices = []
         for i in temp:
             self.vertices.append(copy.deepcopy(i))
-        self.vertices = copy.deepcopy(self.original)
+        #self.vertices = copy.deepcopy(self.original)
 
     def spliceLst(self,lst):
         lstLst = []
@@ -65,7 +65,24 @@ class Graph:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
                     if random.random() < probOfConnection:
                         item.addNeighbor(item2)
-    
+
+    def makebetterClusteredConnections(self, standardprob):
+        for item in self.vertices:
+            for item2 in self.vertices:
+                if item.getId() != item2.getId() and item2 not in item.getConnections():
+                    x = item.getConnections()
+                    y = item2.getConnections()
+                    count = 0
+                    for connection in x:
+                        if connection in y:
+                            count +=1
+                    if count == 0:
+                        if random.random()<standardprob:
+                            item.addNeighbor(item2)
+                    else:
+                        if random.random() < count * standardprob:
+                            item.addNeighbor(item2)
+
     def saveOriginal(self):
         '''This function saves the first state of the graph, after vertices and connections have been made'''
         if self.original == []:
@@ -83,32 +100,8 @@ class Graph:
     def resetCounts(self):
         '''Helper Function for countAndUpdateStatuses'''
         self.numS, self.numR, self.numI = 0,0,0
-    def countAndUpdateStatuses(self):
-        '''Helper Function for update'''
-        self.resetCounts()
-        for item in self.vertices:
-            if item.getStatus() == 'S':
-                self.numS += 1
-            if item.getStatus() == 'I':
-                self.numI += 1
-            if item.getStatus() == 'R':
-                self.numR += 1
-            item.updateVertex()
             
-    def updateLists(self):
-        '''Helper function for update'''
-        self.ilist = self.ilist + [self.numI] 
-        self.rlist = self.rlist + [self.numR]
-        self.iandrlist = self.iandrlist + [self.numI+self.numR]
 
-    def checkHighConcentrationEpi(self):
-        '''Helper Function for update'''
-        if self.numI > self.highTreshold*len(self.vertices):
-            self.highEpi = True
-    def checkFinalEpi(self):
-        '''Help Function for update '''
-        if self.iandrlist[len(self.iandrlist)-1] > self.finalThreshold*len(self.vertices):
-            self.finalEpi = True
 
     def getCurrentState(self):
         '''returns the current state of the graph'''
@@ -186,9 +179,9 @@ def main():
         FinalEpi = 0
         for x in range(trials):
 
-            g = Graph(10, .02, 0, .01, vaccinationpercent)   #k,p,r,%infected,%vaccinated
-            g.makeVertices(500)         #of people
-            g.makeConnections(.01)         #prob they are connected
+            g = Graph(8, .9, 0, .02, vaccinationpercent)   #k,p,r,%infected,%vaccinated
+            g.makeVertices(300)         #of people
+            g.makebetterClusteredConnections(.005)         #prob they are connected
             g.update(50)            #number of repetitions, num trials
             if g.getHighEpi():
                 HighEpi +=1
@@ -205,4 +198,5 @@ def main():
 
 
 if __name__ == "__main__":
-    test()
+    main()
+
