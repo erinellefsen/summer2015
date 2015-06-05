@@ -121,6 +121,12 @@ class Graph:
                 self.numR += 1
             item.updateVertex()
 
+    def updateLists(self):
+        '''Helper function for update'''
+        self.ilist = self.ilist + [self.numI] 
+        self.rlist = self.rlist + [self.numR]
+        self.iandrlist = self.iandrlist + [self.numI+self.numR]            
+            
             
     def update(self, numrepetitions):
         for stuff in range(0,numrepetitions):
@@ -129,6 +135,8 @@ class Graph:
             self.checkHighConcentrationEpi()
 
         self.checkFinalEpi()
+        
+    
 
     def getEpis(self):
         '''Returns boolean values for if epidemics occured. 
