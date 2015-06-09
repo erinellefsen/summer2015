@@ -41,6 +41,7 @@ class Graph:
             if v.getId() in listofvaccinated:
                 v.initialStatus("V")
 
+
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
         for item in self.vertices:
