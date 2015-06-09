@@ -82,16 +82,12 @@ class Graph:
 
         self.vertices = self.copyVertices(self.original,self.vertices)                    
 
-
     def totalReset(self):
         self.resetCounts()
         self.resetLists()
         self.resetBools()
-
-        self.resetGraph()           
-
+        self.resetGraph()
         
-
     def resetLists(self):
         self.ilist,self.rlist,self.iandrlist = [],[],[]
     def resetBools(self):
@@ -179,18 +175,15 @@ def main():
     orderedpairlistHighEpi = []
     orderedpairlistLowEpi = []
     while vaccinationpercent < 1:
-        trials = 30
+        trials = 60
         HighEpi = 0
         FinalEpi = 0
         for x in range(trials):
 
-
-
             g = Graph(8, .9, 0, vaccinationpercent)   #k,p,r,%infected,%vaccinated
             g.makeVertices(300)         #of people
-
             g.makebetterClusteredConnections(.005)         #prob they are connected
-            g.update()            #number of repetitions, num trials
+            g.update(50)            #number of repetitions, num trials
             if g.getHighEpi():
                 HighEpi +=1
             if g.getFinalEpi():

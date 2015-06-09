@@ -4,11 +4,12 @@ import random
 import copy
 import tank
 class Graph:
-    def __init__(self,k,p,r, vaccinated = 0.0):
+    def __init__(self,k,p,r,initinfect, vaccinated = 0.0):
         self.vertices = []
         self.k = k
         self.p = p
         self.r = r
+        self.infectRate = initinfect
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
@@ -27,11 +28,10 @@ class Graph:
 
     def makeVertices(self,numVertices):
         '''Helper function that creates all of the graphs vertex objects'''
-        infected = random.randrange(0,numVertices +1)
         for item in range(0,numVertices):
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
-            if v.getId == infected:
+            if random.random() < self.infectRate:
                 v.initialStatus("I")
             if v.getStatus() != "I" and random.random() <  self.vaccine:
                 v.initialStatus("V")
@@ -79,18 +79,10 @@ class Graph:
         
     def resetGraph(self):
         '''We need to save the original state of the graph'''
-
-        self.vertices = self.copyVertices(self.original,self.vertices)                    
-
-
-    def totalReset(self):
         self.resetCounts()
         self.resetLists()
         self.resetBools()
-
-        self.resetGraph()           
-
-        
+        self.vertices = self.copyVertices(self.original,self.vertices)                    
 
     def resetLists(self):
         self.ilist,self.rlist,self.iandrlist = [],[],[]
@@ -117,9 +109,6 @@ class Graph:
     def getStatuses(self):
         return self.numS, self.numI, self.numR
     
-    def getI(self):
-        return self.numI
-    
     def countAndUpdateStatuses(self):
         '''Helper Function for update'''
         self.resetCounts()
@@ -139,11 +128,8 @@ class Graph:
         self.iandrlist = self.iandrlist + [self.numI+self.numR]            
             
             
-    def update(self):
-        self.countAndUpdateStatuses()
-        self.updateLists()
-        self.checkHighConcentrationEpi()
-        while self.getI() != 0:
+    def update(self, numrepetitions):
+        for stuff in range(0,numrepetitions):
             self.countAndUpdateStatuses()
             self.updateLists()
             self.checkHighConcentrationEpi()
@@ -179,18 +165,15 @@ def main():
     orderedpairlistHighEpi = []
     orderedpairlistLowEpi = []
     while vaccinationpercent < 1:
-        trials = 30
+        trials = 60
         HighEpi = 0
         FinalEpi = 0
         for x in range(trials):
 
-
-
-            g = Graph(8, .9, 0, vaccinationpercent)   #k,p,r,%infected,%vaccinated
+            g = Graph(8, .9, 0, .02, vaccinationpercent)   #k,p,r,%infected,%vaccinated
             g.makeVertices(300)         #of people
-
             g.makebetterClusteredConnections(.005)         #prob they are connected
-            g.update()            #number of repetitions, num trials
+            g.update(50)            #number of repetitions, num trials
             if g.getHighEpi():
                 HighEpi +=1
             if g.getFinalEpi():

@@ -26,11 +26,9 @@
       <file leaf-file-name="graph.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="196" column="10" selection-start="6687" selection-end="6687" vertical-scroll-proportion="0.8023064" vertical-offset="2453" max-vertical-offset="3060">
+            <state line="192" column="21" selection-start="6194" selection-end="6194" vertical-scroll-proportion="4.820998" vertical-offset="79" max-vertical-offset="3240">
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <marker date="1433772361000" expanded="true" signature="84:5579" placeholder="..." />
-                <marker date="1433772361000" expanded="true" signature="2880:3014" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -315,8 +313,6 @@
         <state line="191" column="10" selection-start="6633" selection-end="6633" vertical-scroll-proportion="0.0" vertical-offset="2647" max-vertical-offset="2985">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <marker date="1433772361000" expanded="true" signature="84:5579" placeholder="..." />
-            <marker date="1433772361000" expanded="true" signature="2880:3014" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -333,11 +329,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="196" column="10" selection-start="6687" selection-end="6687" vertical-scroll-proportion="0.8023064" vertical-offset="2453" max-vertical-offset="3060">
+        <state line="192" column="21" selection-start="6194" selection-end="6194" vertical-scroll-proportion="4.820998" vertical-offset="79" max-vertical-offset="3240">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <marker date="1433772361000" expanded="true" signature="84:5579" placeholder="..." />
-            <marker date="1433772361000" expanded="true" signature="2880:3014" placeholder="..." />
           </folding>
         </state>
       </provider>
