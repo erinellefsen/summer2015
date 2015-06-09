@@ -28,12 +28,17 @@ class Graph:
     def makeVertices(self,numVertices):
         '''Helper function that creates all of the graphs vertex objects'''
         infected = random.randrange(0,numVertices +1)
+        listofvaccinated = []
+        while len(listofvaccinated) < self.vaccine:
+            x = random.randrange(0,numVertices)
+            if x != infected and x not in listofvaccinated:
+                listofvaccinated = listofvaccinated + [x]
         for item in range(0,numVertices):
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
-            if v.getId == infected:
+            if v.getId() == infected:
                 v.initialStatus("I")
-            if v.getStatus() != "I" and random.random() <  self.vaccine:
+            if v.getId() in listofvaccinated:
                 v.initialStatus("V")
 
     def makeConnections(self,probOfConnection): 

@@ -22,3 +22,7 @@ def makebetterClusteredConnections(self, standardprob):
                         count +=1
                 if random.random() < count * standardprob:
                     item.addNeighbor(item2)
+
+def main():
+    print(random.randrange(0,100))
+main()
