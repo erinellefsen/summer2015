@@ -58,8 +58,8 @@ class Graph:
 
 
     def calculateR(self, basic = False):
-        R = (self.sumNeighbors(basic)/len(self.vertices))*self.q
-        return R
+        res = (self.sumNeighbors(basic)/len(self.vertices))*self.q
+        return res
 
 
 

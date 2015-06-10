@@ -1,11 +1,21 @@
 __author__ = 'elleer02'
-import vertexclass
 import graph
-import disease
-import random
+import statistics
 
-for things in range(10):
-    g = graph.Graph(8,.9,0,50)
-    g.makeVertices(300)
-    g.makeConnections(.01)
-    print(g.calculateR())
+
+Rlist =[]
+for things in range(50):
+
+    g = graph.Graph(8,.9,0,0)
+    g.makeVertices(5000)
+    g.makeConnections(.001)
+    Rlist = Rlist + [g.calculateR(True)]
+
+x = statistics.mean(Rlist)
+y = statistics.pstdev(Rlist,x)
+z = statistics.pvariance(Rlist,x)
+
+print(Rlist)
+print('mean',x,)
+print('standard dev',y)
+print('variance',z)
