@@ -4,7 +4,7 @@ import random
 import copy
 import tank
 class Graph:
-    def __init__(self,k,p,r, vaccinated = 0.0):
+    def __init__(self,k,p,r, vaccinated = 0):
         self.vertices = []
         self.k = k
         self.p = p
@@ -21,15 +21,16 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
+        self.q = 1-((1-p)**k)
 
     def getVertices(self):
         return self.vertices
 
     def makeVertices(self,numVertices):
         '''Helper function that creates all of the graphs vertex objects'''
-        infected = random.randrange(0,numVertices +1)
+        infected = random.randrange(0,numVertices)
         listofvaccinated = []
-        while len(listofvaccinated) < self.vaccine:
+        while len(listofvaccinated) < self.vaccine: #need to make vaccine a number not a percent 
             x = random.randrange(0,numVertices)
             if x != infected and x not in listofvaccinated:
                 listofvaccinated = listofvaccinated + [x]
@@ -37,9 +38,32 @@ class Graph:
             v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
             if v.getId() == infected:
-                v.initialStatus("I")
+
+                v.initialStatus('I')
             if v.getId() in listofvaccinated:
-                v.initialStatus("V")
+                v.initialStatus('V')
+
+    def sumNeighbors(self, basic):
+        count = 0
+        for item in self.vertices:
+            lst = item.getConnections()
+            if not basic:
+                for vert in lst:
+                    if not vert.getStatus() == 'V':
+                        count += 1
+            else:
+                count += len(lst)
+        return count
+
+
+
+    def calculateR(self, basic = False):
+        R = (self.sumNeighbors(basic)/float(len(self.vertices)))*self.q
+        return R
+
+
+
+
 
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
