@@ -72,7 +72,7 @@ class Graph:
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < probOfConnection:
+                    if random.random() < realProbOfConnection:
                         item.addNeighbor(item2)
 
 
