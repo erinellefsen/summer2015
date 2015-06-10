@@ -3,6 +3,7 @@ import disease
 import random
 import copy
 import tank
+import math
 class Graph:
     def __init__(self,k,p,r, vaccinated = 0):
         self.vertices = []
@@ -67,6 +68,7 @@ class Graph:
 
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
+        realProbOfConnection = 1 - math.sqrt(1-probOfConnection) 
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
