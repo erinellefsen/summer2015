@@ -53,8 +53,9 @@ class Graph:
                     if not vert.getStatus() == 'V':
                         count += 1
         if basic:
-            lst = item.getConnections()
-            count += len(lst)
+            for bleh in self.vertices:
+                lst = bleh.getConnections()
+                count += len(lst)
         return count
 
 
@@ -74,11 +75,11 @@ class Graph:
 
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
-        actualprob = 1 - math.sqrt(1- probOfConnection)
+        realProbOfConnection = 1 - math.sqrt(1-probOfConnection) 
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < actualprob:
+                    if random.random() < realProbOfConnection:
                         item.addNeighbor(item2)
 
 
@@ -97,7 +98,7 @@ class Graph:
                         if random.random()<realprob:
                             item.addNeighbor(item2)
                     else:
-                        if random.random() < (count+1) * realprob:
+                        if random.random() < (2*count+1) * realprob:
                             item.addNeighbor(item2)
 
 
@@ -216,7 +217,7 @@ def main():
     vaccinationpercent = 0
     orderedpairlistHighEpi = []
     orderedpairlistLowEpi = []
-    while vaccinationpercent < 1:
+    while vaccinationpercent < 200:
         trials = 30
         HighEpi = 0
         FinalEpi = 0
@@ -227,7 +228,7 @@ def main():
             g = Graph(8, .9, 0, vaccinationpercent)   #k,p,r,%infected,%vaccinated
             g.makeVertices(300)         #of people
 
-            g.makebetterClusteredConnections(.005)         #prob they are connected
+            g.makeConnections(.02)         #prob they are connected
             g.update()            #number of repetitions, num trials
             if g.getHighEpi():
                 HighEpi +=1
@@ -238,7 +239,7 @@ def main():
 
         y = (vaccinationpercent,(HighEpi/trials)*100 , (FinalEpi/trials)*100)
 
-        vaccinationpercent += .05
+        vaccinationpercent += 10
     print(".05 at a time" , orderedpairlistHighEpi)
     print(".10 at end time" , orderedpairlistLowEpi)
 

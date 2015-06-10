@@ -9,7 +9,7 @@ while vaccination <200:
 
         g = graph.Graph(8,.9,0,vaccination)
         g.makeVertices(200)
-        g.makebetterClusteredConnections(.01)
+        g.makebetterClusteredConnections(.02)
         Rlist = Rlist + [g.calculateR()]
 
     x = statistics.mean(Rlist)
