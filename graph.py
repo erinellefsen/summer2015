@@ -3,6 +3,7 @@ import disease
 import random
 import copy
 import tank
+import math
 class Graph:
     def __init__(self,k,p,r, vaccinated = 0):
         self.vertices = []
@@ -45,19 +46,21 @@ class Graph:
 
     def sumNeighbors(self, basic):
         count = 0
-        for item in self.vertices:
-            lst = item.getConnections()
-            if not basic:
+        if not basic:
+            for item in self.vertices:
+                lst = item.getConnections()
                 for vert in lst:
                     if not vert.getStatus() == 'V':
                         count += 1
-            else:
-                count += len(lst)
+        if basic:
+            lst = item.getConnections()
+            count += len(lst)
         return count
 
 
 
     def calculateR(self, basic = False):
+
         res = (self.sumNeighbors(basic)/len(self.vertices))*self.q
         return res
 
@@ -65,16 +68,22 @@ class Graph:
 
 
 
+
+
+
+
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
+        actualprob = 1 - math.sqrt(1- probOfConnection)
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < probOfConnection:
+                    if random.random() < actualprob:
                         item.addNeighbor(item2)
 
 
     def makebetterClusteredConnections(self, standardprob):
+        realprob = 1- math.sqrt(1-standardprob)
         for item in self.vertices:
             for item2 in self.vertices:
                 if item.getId() != item2.getId() and item2 not in item.getConnections():
@@ -85,10 +94,10 @@ class Graph:
                         if connection in y:
                             count +=1
                     if count == 0:
-                        if random.random()<standardprob:
+                        if random.random()<realprob:
                             item.addNeighbor(item2)
                     else:
-                        if random.random() < count * standardprob:
+                        if random.random() < (count+1) * realprob:
                             item.addNeighbor(item2)
 
 
