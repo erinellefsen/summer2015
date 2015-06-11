@@ -46,52 +46,58 @@ class Graph:
 
     def sumNeighbors(self, basic):
         count = 0
-        for item in self.vertices:
-            lst = item.getConnections()
-            if not basic:
+        if not basic:
+            for item in self.vertices:
+                lst = item.getConnections()
                 for vert in lst:
                     if not vert.getStatus() == 'V':
                         count += 1
-            else:
+        if basic:
+            for bleh in self.vertices:
+                lst = bleh.getConnections()
                 count += len(lst)
         return count
 
 
 
     def calculateR(self, basic = False):
-        R = (self.sumNeighbors(basic)/float(len(self.vertices)))*self.q
-        return R
 
-
-
+        res = (self.sumNeighbors(basic)/float(len(self.vertices)))*self.q
+        return res
 
 
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
-        realProbOfConnection = 1 - math.sqrt(1-probOfConnection) 
+         
         for item in self.vertices:
-            for item2 in self.vertices:
-                if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < realProbOfConnection:
-                        item.addNeighbor(item2)
+            i = self.vertices.index(item) + 1
+            for x in range(i,len(self.vertices)-1):
+                item2 = self.vertices[x]
+                if random.random() < probOfConnection:
+                    item.addNeighbor(item2)
+            i += 1
 
 
     def makebetterClusteredConnections(self, standardprob):
+        
         for item in self.vertices:
-            for item2 in self.vertices:
-                if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    x = item.getConnections()
-                    y = item2.getConnections()
-                    count = 0
-                    for connection in x:
-                        if connection in y:
-                            count +=1
-                    if count == 0:
-                        if random.random()<standardprob:
-                            item.addNeighbor(item2)
-                    else:
-                        if random.random() < count * standardprob:
-                            item.addNeighbor(item2)
+            i = self.vertices.index(item) + 1
+            for x in range(i,len(self.vertices)-1):
+                item2 = self.vertices[x]
+                
+                x = item.getConnections()
+                y = item2.getConnections()
+                count = 0
+                for connection in x:
+                    if connection in y:
+                        count +=1
+                if count == 0:
+                    if random.random()<standardprob:
+                        item.addNeighbor(item2)
+                else:
+                    if random.random() < (2*count+1) * standardprob:
+                        item.addNeighbor(item2)
+            i += 1
 
 
     def makeVerticesAndConnections(self,numVertices,probOfConnection):
@@ -209,7 +215,7 @@ def main():
     vaccinationpercent = 0
     orderedpairlistHighEpi = []
     orderedpairlistLowEpi = []
-    while vaccinationpercent < 1:
+    while vaccinationpercent < 200:
         trials = 30
         HighEpi = 0
         FinalEpi = 0
@@ -220,7 +226,7 @@ def main():
             g = Graph(8, .9, 0, vaccinationpercent)   #k,p,r,%infected,%vaccinated
             g.makeVertices(300)         #of people
 
-            g.makebetterClusteredConnections(.005)         #prob they are connected
+            g.makeConnections(.02)         #prob they are connected
             g.update()            #number of repetitions, num trials
             if g.getHighEpi():
                 HighEpi +=1
@@ -231,7 +237,7 @@ def main():
 
         y = (vaccinationpercent,(HighEpi/trials)*100 , (FinalEpi/trials)*100)
 
-        vaccinationpercent += .05
+        vaccinationpercent += 10
     print(".05 at a time" , orderedpairlistHighEpi)
     print(".10 at end time" , orderedpairlistLowEpi)
 
