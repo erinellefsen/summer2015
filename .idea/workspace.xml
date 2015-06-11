@@ -23,6 +23,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="graph.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/graph.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="99" column="18" selection-start="3205" selection-end="3205" vertical-scroll-proportion="1.5735294" vertical-offset="875" max-vertical-offset="3720">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="calculateR.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/calculateR.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -34,10 +43,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="othercalculateR.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="othercalculateR.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/othercalculateR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.7058824" vertical-offset="0" max-vertical-offset="390">
+            <state line="16" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
               <folding>
                 <element signature="e#25#37#0" expanded="true" />
               </folding>
@@ -59,8 +68,8 @@
         <option value="$PROJECT_DIR$/scratch.py" />
         <option value="$PROJECT_DIR$/vertexclass.py" />
         <option value="$PROJECT_DIR$/calculateR.py" />
-        <option value="$PROJECT_DIR$/graph.py" />
         <option value="$PROJECT_DIR$/othercalculateR.py" />
+        <option value="$PROJECT_DIR$/graph.py" />
       </list>
     </option>
   </component>
@@ -372,7 +381,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="17" y="22" width="1277" height="704" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -382,7 +391,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39869282" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39869282" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39869282" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -434,18 +443,14 @@
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="192" column="21" selection-start="6194" selection-end="6194" vertical-scroll-proportion="0.0" vertical-offset="139" max-vertical-offset="3240">
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="191" column="10" selection-start="6633" selection-end="6633" vertical-scroll-proportion="0.0" vertical-offset="2647" max-vertical-offset="2985">
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -477,15 +482,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="246" column="101" selection-start="7759" selection-end="7759" vertical-scroll-proportion="0.6178344" vertical-offset="3496" max-vertical-offset="3810">
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/calculateR.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="49" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
@@ -497,10 +493,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/othercalculateR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.7058824" vertical-offset="0" max-vertical-offset="390">
+        <state line="16" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
           <folding>
             <element signature="e#25#37#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="18" selection-start="3205" selection-end="3205" vertical-scroll-proportion="1.5735294" vertical-offset="875" max-vertical-offset="3720">
+          <folding />
         </state>
       </provider>
     </entry>

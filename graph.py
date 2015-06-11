@@ -62,44 +62,42 @@ class Graph:
 
     def calculateR(self, basic = False):
 
-        res = (self.sumNeighbors(basic)/len(self.vertices))*self.q
+        res = (self.sumNeighbors(basic)/float(len(self.vertices)))*self.q
         return res
-
-
-
-
-
-
-
 
 
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
-        realProbOfConnection = 1 - math.sqrt(1-probOfConnection) 
+         
         for item in self.vertices:
-            for item2 in self.vertices:
-                if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < realProbOfConnection:
-                        item.addNeighbor(item2)
+            i = self.vertices.index(item) + 1
+            for x in range(i,len(self.vertices)-1):
+                item2 = self.vertices[x]
+                if random.random() < probOfConnection:
+                    item.addNeighbor(item2)
+            i += 1
 
 
     def makebetterClusteredConnections(self, standardprob):
-        realprob = 1- math.sqrt(1-standardprob)
+        
         for item in self.vertices:
-            for item2 in self.vertices:
-                if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    x = item.getConnections()
-                    y = item2.getConnections()
-                    count = 0
-                    for connection in x:
-                        if connection in y:
-                            count +=1
-                    if count == 0:
-                        if random.random()<realprob:
-                            item.addNeighbor(item2)
-                    else:
-                        if random.random() < (2*count+1) * realprob:
-                            item.addNeighbor(item2)
+            i = self.vertices.index(item) + 1
+            for x in range(i,len(self.vertices)-1):
+                item2 = self.vertices[x]
+                
+                x = item.getConnections()
+                y = item2.getConnections()
+                count = 0
+                for connection in x:
+                    if connection in y:
+                        count +=1
+                if count == 0:
+                    if random.random()<standardprob:
+                        item.addNeighbor(item2)
+                else:
+                    if random.random() < (2*count+1) * standardprob:
+                        item.addNeighbor(item2)
+            i += 1
 
 
     def makeVerticesAndConnections(self,numVertices,probOfConnection):
