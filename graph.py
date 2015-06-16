@@ -1,15 +1,21 @@
-import vertexclass
+import vertex
 import disease
 import random
 import copy
 import tank
 import math
+import edge
+
 class Graph:
-    def __init__(self,k,p,r, vaccinated = 0):
+    def __init__(self,params):
         self.vertices = []
-        self.k = k
-        self.p = p
-        self.r = r
+        self.edges = []
+        self.k = params.k
+        self.p = params.p
+        self.r = params.r
+        self.numVerts=params.numVerts
+        self.nu = params.numVacc    #number of vaccinated individuals
+        self.rho = params.connectionProb  #percent of population each node should connect to
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
@@ -18,25 +24,34 @@ class Graph:
         self.numR = 0
         self.highEpi = False
         self.finalEpi = False
-        self.vaccine = vaccinated
+        
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
-        self.q = 1-((1-p)**k)
+        self.q = 1-((1-self.p)**self.k)
+        
+        #self.makeVerticesAndConnections()
+        self.makeVertices()
+        self.makeConnections()
 
+    def setup(self):
+        self.makeVertices()
     def getVertices(self):
         return self.vertices
+    
+    def getEdges(self):
+        return self.edges
 
-    def makeVertices(self,numVertices):
+    def makeVertices(self):
         '''Helper function that creates all of the graphs vertex objects'''
-        infected = random.randrange(0,numVertices)
+        infected = random.randrange(0,self.numVerts)
         listofvaccinated = []
-        while len(listofvaccinated) < self.vaccine: #need to make vaccine a number not a percent 
-            x = random.randrange(0,numVertices)
+        while len(listofvaccinated) < self.nu: 
+            x = random.randrange(0,self.numVerts)
             if x != infected and x not in listofvaccinated:
                 listofvaccinated = listofvaccinated + [x]
-        for item in range(0,numVertices):
-            v = vertexclass.Vertex(item, disease.Disease(self.k,self.p,self.r))
+        for item in range(0,self.numVerts):
+            v = vertex.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
             if v.getId() == infected:
 
@@ -48,13 +63,13 @@ class Graph:
         count = 0
         if not basic:
             for item in self.vertices:
-                lst = item.getConnections()
+                lst = item.getSourceTo()
                 for vert in lst:
                     if not vert.getStatus() == 'V':
                         count += 1
         if basic:
             for bleh in self.vertices:
-                lst = bleh.getConnections()
+                lst = bleh.getSourceTo()
                 count += len(lst)
         return count
 
@@ -65,8 +80,17 @@ class Graph:
         res = (self.sumNeighbors(basic)/float(len(self.vertices)))*self.q
         return res
 
-
-    def makeConnections(self,probOfConnection): 
+    def addEdge(self,edge):
+        self.edges += [edge]
+    def connect(self,source,dest):
+        if random.random() < self.rho: # check to see if this number 
+            source.addSource(dest)
+            dest.addDest(source)
+            ed = edge.Edge(source,dest,self.p) #or use some distribution counter (adjust edge)
+            dest.addEdge(ed)
+            self.addEdge(ed)
+        
+    def makeConnections(self): 
         '''Helper Function that creates all of the graphs connections'''
         count = 0
         for item in self.vertices:
@@ -74,9 +98,10 @@ class Graph:
             i = self.vertices.index(item) + 1
             for x in range(i,len(self.vertices)):
                 item2 = self.vertices[x]
-                if random.random() < probOfConnection:
-                    item.addNeighbor(item2)
-                    count = count + 1
+
+                self.connect(item,item2)
+                self.connect(item2,item)
+                #if random.random() < probOfConnection:
 
             i += 1
         return count
@@ -103,9 +128,9 @@ class Graph:
             i += 1
 
 
-    def makeVerticesAndConnections(self,numVertices,probOfConnection):
-        self.makeVertices(numVertices)
-        self.makeConnections(probOfConnection)
+    def makeVerticesAndConnections(self):
+        self.makeVertices()
+        self.makeConnections()
         self.original = self.copyVertices(self.vertices,self.original)
 
 
