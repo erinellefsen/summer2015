@@ -1,0 +1,42 @@
+import Vertex from vertexclass
+import math
+
+
+
+'''What is the goal here? I want to inherit from the vertexclass so I can create a lattice vertex. What makes the lattic different? Essentially, you can create a matrix and each person is connected to anyone with row +- 1 and column +-1 but not both.'''
+
+class LatticeVertex(Vertex):
+    def __init__(self,key,disease,x,y):
+        Vertex.__init__(key,disease)
+        self.x_coord = x
+        self.y_coord = y
+        
+        
+class LatticeGraph(Graph):
+    def __init__(self,k,p,r, vaccinated = 0):
+        Graph.__init__(k,p,r, vaccinated)
+    
+    def makeVertices(self, numVertices):
+        sideLength = math.sqrt(numVertices)
+        id = 0
+        for i in range(sideLength):
+            for j in range(sideLength)
+                d = disease.Disease(self.k,self.p,self.r)
+                vert = LatticeVertex(id, d,i,j)
+                self.vertices 
+                id +=1
+    
+    def makeConnections(self):
+        for item in self.vertices
+        afja;jfja;fja;fjaajfa;fja;f;jafjafja;jf;ajf;ajf;jaf;jaf;jaf;jafjaf;ojaf;jaf;jaf;jaf;jaf;jaf;jaf;jaf;jaf;jaf;jafj;af;jaf;jaf;jafojlioloolafolafolafolafolafolafolafolafolafolafolafolafolafolafolafolafolaf
+        
+    def makeConnections(self,probOfConnection): 
+        '''Helper Function that creates all of the graphs connections'''
+         
+        for item in self.vertices:
+            i = self.vertices.index(item) + 1
+            for x in range(i,len(self.vertices)-1):
+                item2 = self.vertices[x]
+                if random.random() < probOfConnection:
+                    item.addNeighbor(item2)
+            i += 1
