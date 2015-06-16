@@ -78,7 +78,7 @@ class Graph:
                     item.addNeighbor(item2)
                     count = count + 1
 
-            i += 1
+
         return count
 
     def makebetterClusteredConnections(self, standardprob):
@@ -100,7 +100,6 @@ class Graph:
                 else:
                     if random.random() < (2*count+1) * standardprob:
                         item.addNeighbor(item2)
-            i += 1
 
 
     def makeVerticesAndConnections(self,numVertices,probOfConnection):

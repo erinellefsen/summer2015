@@ -26,18 +26,16 @@
       <file leaf-file-name="graph.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="162" column="19" selection-start="5091" selection-end="5091" vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="3885">
-              <folding>
-                <marker date="1434470569000" expanded="true" signature="5091:5116" placeholder="..." />
-              </folding>
+            <state line="86" column="45" selection-start="2631" selection-end="2631" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="3795">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calculateR.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="calculateR.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/calculateR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="5" selection-start="114" selection-end="114" vertical-scroll-proportion="0.19961977" vertical-offset="0" max-vertical-offset="526">
+            <state line="7" column="5" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
               <folding>
                 <element signature="e#24#36#0" expanded="true" />
               </folding>
@@ -48,16 +46,16 @@
       <file leaf-file-name="RandInfected.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RandInfected.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="27" selection-start="365" selection-end="365" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1185">
+            <state line="9" column="22" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1185">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="othercalculateR.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="othercalculateR.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/othercalculateR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="28" selection-start="394" selection-end="394" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="390">
+            <state line="17" column="28" selection-start="394" selection-end="394" vertical-scroll-proportion="0.45627376" vertical-offset="0" max-vertical-offset="526">
               <folding />
             </state>
           </provider>
@@ -78,9 +76,9 @@
         <option value="$PROJECT_DIR$/vertexclass.py" />
         <option value="$PROJECT_DIR$/othercalculateR.py" />
         <option value="$PROJECT_DIR$/calculateR.py" />
-        <option value="$PROJECT_DIR$/graph.py" />
         <option value="$PROJECT_DIR$/RandInfected.py" />
         <option value="$PROJECT_DIR$/distlisttrial1" />
+        <option value="$PROJECT_DIR$/graph.py" />
       </list>
     </option>
   </component>
@@ -116,7 +114,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -137,6 +134,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -432,11 +430,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -453,9 +451,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24980423" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32913387" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32913387" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -479,10 +477,38 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="24" selection-start="5118" selection-end="5118" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3885">
+        <state line="162" column="19" selection-start="5091" selection-end="5091" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3885">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calculateR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="5" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="450">
           <folding>
-            <marker date="1434470569000" expanded="true" signature="5091:5116" placeholder="..." />
+            <element signature="e#24#36#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RandInfected.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="27" selection-start="365" selection-end="365" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1185">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/othercalculateR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="28" selection-start="394" selection-end="394" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="390">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="163" column="24" selection-start="5118" selection-end="5118" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3885">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -512,18 +538,14 @@
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="192" column="21" selection-start="6194" selection-end="6194" vertical-scroll-proportion="0.0" vertical-offset="139" max-vertical-offset="3240">
-          <folding>
-            <marker date="1434470569000" expanded="true" signature="5091:5116" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/graph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="191" column="10" selection-start="6633" selection-end="6633" vertical-scroll-proportion="0.0" vertical-offset="2647" max-vertical-offset="2985">
-          <folding>
-            <marker date="1434470569000" expanded="true" signature="5091:5116" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -539,29 +561,6 @@
         <state line="11" column="0" selection-start="249" selection-end="249" vertical-scroll-proportion="-0.2388535" vertical-offset="240" max-vertical-offset="1365" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/othercalculateR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="28" selection-start="394" selection-end="394" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="390">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="19" selection-start="5091" selection-end="5091" vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="3885">
-          <folding>
-            <marker date="1434470569000" expanded="true" signature="5091:5116" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RandInfected.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="27" selection-start="365" selection-end="365" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1185">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/distlisttrial1">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="0" selection-start="20335" selection-end="20335" vertical-scroll-proportion="0.64327484" vertical-offset="0" max-vertical-offset="513">
@@ -571,17 +570,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/R_Distribution.ipynb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-9.672515" vertical-offset="4962" max-vertical-offset="5475">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-9.672515" vertical-offset="4962" max-vertical-offset="5475" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="45" selection-start="2631" selection-end="2631" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="3795">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RandInfected.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="22" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1185">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/calculateR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="5" selection-start="114" selection-end="114" vertical-scroll-proportion="0.19961977" vertical-offset="0" max-vertical-offset="526">
+        <state line="7" column="5" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
           <folding>
             <element signature="e#24#36#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/othercalculateR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="28" selection-start="394" selection-end="394" vertical-scroll-proportion="0.45627376" vertical-offset="0" max-vertical-offset="526">
+          <folding />
         </state>
       </provider>
     </entry>
