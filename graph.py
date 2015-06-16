@@ -68,21 +68,24 @@ class Graph:
 
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
-         
+        count = 0
         for item in self.vertices:
+
             i = self.vertices.index(item) + 1
-            for x in range(i,len(self.vertices)-1):
+            for x in range(i,len(self.vertices)):
                 item2 = self.vertices[x]
                 if random.random() < probOfConnection:
                     item.addNeighbor(item2)
-            i += 1
+                    count = count + 1
 
+            i += 1
+        return count
 
     def makebetterClusteredConnections(self, standardprob):
         
         for item in self.vertices:
             i = self.vertices.index(item) + 1
-            for x in range(i,len(self.vertices)-1):
+            for x in range(i,len(self.vertices)):
                 item2 = self.vertices[x]
                 
                 x = item.getConnections()
@@ -156,6 +159,9 @@ class Graph:
     
     def getI(self):
         return self.numI
+
+    def getR(self):
+        return self.numR
     
     def countAndUpdateStatuses(self):
         '''Helper Function for update'''
