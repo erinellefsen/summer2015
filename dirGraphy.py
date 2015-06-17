@@ -28,10 +28,10 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
-        self.q = 1-((1-p)**k)
+        self.q = 1-((1-self.p)**self.k)
         
-        #self.makeVertices()
-        #self.makeConnections()
+        #self.makeVerticesAndConnections()
+        self.setup()
 
     def addEdge(self,edge):
         self.edges += [edge]
@@ -106,8 +106,8 @@ class Graph:
         return self.numS, self.numI, self.numR
 
     def getVertices(self):
-        return self.vertices   
-   
+        return self.vertices
+
     def makeBetterClusteredConnections(self, standardprob):
         
         for item in self.vertices:
@@ -115,7 +115,7 @@ class Graph:
             for x in range(i,len(self.vertices)):
                 item2 = self.vertices[x]
                 
-                x = item.getConnections() 
+                x = item.getConnections()
                 y = item2.getConnections()
                 count = 0
                 for connection in x:
@@ -127,20 +127,20 @@ class Graph:
                 else:
                     if random.random() < (2*count+1) * standardprob:
                         item.addNeighbor(item2)
-    
+
     def makeConnections(self): 
         '''Helper Function that creates all of the graphs connections'''
-        count = 0
+         
         for item in self.vertices:
-
             i = self.vertices.index(item) + 1
             for x in range(i,len(self.vertices)):
                 item2 = self.vertices[x]
-                if random.random() < self.rho:
-                    item.addNeighbor(item2)
-                    count = count + 1
-        return count
-        
+                self.connect(item,item2)
+                self.connect(item2,item)
+                #if random.random() < probOfConnection:
+            i += 1
+            
+
     def makeVertices(self):
         '''Helper function that creates all of the graphs vertex objects'''
         infected = random.randrange(0,self.numVerts)
@@ -181,18 +181,17 @@ class Graph:
         self.makeVertices()
         self.makeConnections()
     
-
     def sumNeighbors(self, basic):
         count = 0
         if not basic:
             for item in self.vertices:
-                lst = item.getConnections()
+                lst = item.getSourceTo()
                 for vert in lst:
                     if not vert.getStatus() == 'V':
                         count += 1
         if basic:
             for bleh in self.vertices:
-                lst = bleh.getConnections()
+                lst = bleh.getSourceTo()
                 count += len(lst)
         return count
         
@@ -219,8 +218,6 @@ class Graph:
         self.ilist = self.ilist + [self.numI] 
         self.rlist = self.rlist + [self.numR]
         self.iandrlist = self.iandrlist + [self.numI+self.numR]            
-
-
 
 
 def main():

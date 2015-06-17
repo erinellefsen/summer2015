@@ -1,4 +1,4 @@
-import Vertex from vertexclass
+import Vertex from vertex
 import math
 
 
@@ -10,7 +10,14 @@ class LatticeVertex(Vertex):
         Vertex.__init__(key,disease)
         self.x_coord = x
         self.y_coord = y
-        
+    def getX(self):
+        return self.x_coord
+    ref getY(self):
+        return self.y_coord
+    def isNeighbor(self,vert):
+        if vert.getY()+1 == self.y_coord or vert.getX()-1 == self.y_coord or vert.getX()+1 == self.x_coord or vert.getx()-1 == self.x_coord:
+            return True
+    def.
         
 class LatticeGraph(Graph):
     def __init__(self,k,p,r, vaccinated = 0):
@@ -27,7 +34,13 @@ class LatticeGraph(Graph):
                 id +=1
     
     def makeConnections(self):
-        for item in self.vertices
+        for i in range(len(self.vertices)):
+           vert1 = self.vertices[i]
+           for x in range(i,len(self.vertices)):
+               vert2 = self.vertices[x]
+               if vert1.isNeighbor(vert2):
+                   self.connect(vert1,vert2)
+                   self.connect(vert2,vert1)
         afja;jfja;fja;fjaajfa;fja;f;jafjafja;jf;ajf;ajf;jaf;jaf;jaf;jafjaf;ojaf;jaf;jaf;jaf;jaf;jaf;jaf;jaf;jaf;jaf;jafj;af;jaf;jaf;jafojlioloolafolafolafolafolafolafolafolafolafolafolafolafolafolafolafolafolaf
         
     def makeConnections(self,probOfConnection): 
