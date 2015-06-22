@@ -1,4 +1,4 @@
-import vertex
+import dirVertex
 import disease
 import random
 import copy
@@ -150,7 +150,7 @@ class Graph:
             if x != infected and x not in listofvaccinated:
                 listofvaccinated = listofvaccinated + [x]
         for item in range(0,self.numVerts):
-            v = vertex.Vertex(item, disease.Disease(self.k,self.p,self.r))
+            v = dirVertex.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
             if v.getId() == infected:
 

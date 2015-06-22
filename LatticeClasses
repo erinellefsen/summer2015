@@ -23,11 +23,12 @@ class LatticeGraph(Graph):
     def __init__(self,k,p,r, vaccinated = 0):
         Graph.__init__(k,p,r, vaccinated)
     
-    def makeVertices(self, numVertices):
-        sideLength = math.sqrt(numVertices)
+    def makeVertices(self):
+        sideLength = math.ceil(math.sqrt(self.numVerts))
         id = 0
         for i in range(sideLength):
             for j in range(sideLength)
+                if id < len(self.numVerts)
                 d = disease.Disease(self.k,self.p,self.r)
                 vert = LatticeVertex(id, d,i,j)
                 self.vertices 

@@ -1,10 +1,12 @@
-import vertex
+import dirVertex
 import disease
 import random
 import copy
 import tank
 import math
 import edge
+import params
+import networkx as nx
 
 class Graph:
     def __init__(self,params):
@@ -16,6 +18,8 @@ class Graph:
         self.numVerts=params.numVerts
         self.nu = params.numVacc    #number of vaccinated individuals
         self.rho = params.connectionProb  #percent of population each node should connect to
+        self.percentVacc = params.percentVacc
+        self.random = params.random
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
@@ -24,17 +28,39 @@ class Graph:
         self.numR = 0
         self.highEpi = False
         self.finalEpi = False
-        
+
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
-        self.q = 1-((1-p)**k)
-        
-        #self.makeVertices()
-        #self.makeConnections()
+        self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
 
+        #self.makeVertices()
+        #self.makeNewConnections()
+        '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
+        self.makeVertices()
+        self.makeNewConnections()
+        self.calcHubs()
+        self.vaccinate()
+    
     def addEdge(self,edge):
         self.edges += [edge]
+    
+    def calcHubs(self):
+        g = self.makeNetworkX()
+        paths = nx.shortest_path_length(g)
+        for vert in self.vertices:
+            distLst = []
+
+            lengthLst = paths[vert].values()
+            lengthLst.sort()
+            res = 0
+            current = 1
+            for i in range(1,len(lengthLst)):
+                temp = lengthLst[i]
+
+                res += (self.q**temp)
+            vert.setHubScore(res)
+      
         
     def calculateR(self, basic = False):
         res = (self.sumNeighbors(basic)/float(len(self.vertices)))*self.q
@@ -56,7 +82,7 @@ class Graph:
             dest.addDest(source)
             ed = edge.Edge(source,dest,self.p) #or use some distribution counter (adjust edge)
             dest.addEdge(ed)
-            self.addEdge(ed)
+            self.addEdge(ed)   
     
     def copyVertices(self,source,dest):
         '''This function saves the first state of the graph, after vertices and connections have been made'''
@@ -140,29 +166,67 @@ class Graph:
                     item.addNeighbor(item2)
                     count = count + 1
         return count
+    
+    def makeNetworkX(self):
+        G=nx.Graph()
+        G.add_nodes_from(self.getVertices())
+        edgeLst = []
+        for vert in self.getVertices():
+            connections = vert.getDestTo()
+            for i in connections:
+                edgeLst.append([vert,i])
+        G.add_edges_from(edgeLst)
+        return G
+        #nx.draw_networkx(G,node_size = 100,node_color="lightblue")
+
+    def makeNewConnections(self,twoWay=True): 
+        '''Helper Function that creates all of the graphs connections'''
+         
+        for i in range(len(self.vertices)):
+            item = self.vertices[i]
+            for x in range(i+1,len(self.vertices)):
+                item2 = self.vertices[x]
+                if twoWay:
+                    self.twoWayConnect(item,item2)
+                else:
+                    self.connect(item,item2)
+                    self.connect(item2,item)
+                #if random.random() < probOfConnection:
+            
+    def makeVertHubDict(self):
+        resDct = {}
+        for vert in self.vertices:
+            resDct[vert] = vert.getHubScore()
+        return resDct
         
     def makeVertices(self):
         '''Helper function that creates all of the graphs vertex objects'''
+
+        for item in range(0,self.numVerts):
+            v = dirVertex.Vertex(item, disease.Disease(self.k,self.p,self.r))
+            self.vertices = self.vertices + [v]
+
+
+    def makeVerticesAndConnections(self):
+        self.makeVertices()
+        self.makeConnections()
+        self.original = self.copyVertices(self.vertices,self.original)
+    
+    def randomVacc(self):
         infected = random.randrange(0,self.numVerts)
         listofvaccinated = []
         while len(listofvaccinated) < self.nu: 
             x = random.randrange(0,self.numVerts)
             if x != infected and x not in listofvaccinated:
                 listofvaccinated = listofvaccinated + [x]
-        for item in range(0,self.numVerts):
-            v = vertex.Vertex(item, disease.Disease(self.k,self.p,self.r))
-            self.vertices = self.vertices + [v]
+    
+        for v in self.vertices:
+            
             if v.getId() == infected:
 
                 v.initialStatus('I')
             if v.getId() in listofvaccinated:
                 v.initialStatus('V')
-
-    def makeVerticesAndConnections(self):
-        self.makeVertices()
-        self.makeConnections()
-        self.original = self.copyVertices(self.vertices,self.original)
-        
     def resetBools(self):
         self.highEpi,self.finalEpi = False,False
         
@@ -194,14 +258,37 @@ class Graph:
             for bleh in self.vertices:
                 lst = bleh.getConnections()
                 count += len(lst)
-        return count
+        return count   
+    
+    def targetedVacc(self):
+        dct = self.makeVertHubDict()
+        keys = dct.keys()
+        keys.sort(key=lambda x : x.hubScore, reverse = True)
+        vaccLst = keys[int(self.numVerts*(1-self.percentVacc)):]
+        print("HERE IN TARGETED VACC")
+        return vaccLst
         
     def totalReset(self):
         self.resetCounts()
         self.resetLists()
         self.resetBools()
-
         self.resetGraph()           
+
+    
+    def twoWayConnect(self,vert1,vert2):
+        if random.random() < self.rho: # check to see if this number 
+            vert1.addSource(vert2)
+            vert2.addDest(vert1)
+            ed = edge.Edge(vert1,vert2,self.p) #or use some distribution counter (adjust edge)
+            vert2.addSource(vert1)
+            vert1.addDest(vert2)
+            ed1 = edge.Edge(vert2,vert1,self.p) #or use some distribution counter
+            
+            vert2.addEdge(ed)
+            self.addEdge(ed)            
+            
+            vert1.addEdge(ed1)
+            self.addEdge(ed1)
             
     def update(self):
         self.countAndUpdateStatuses()
@@ -218,41 +305,20 @@ class Graph:
         '''Helper function for update'''
         self.ilist = self.ilist + [self.numI] 
         self.rlist = self.rlist + [self.numR]
-        self.iandrlist = self.iandrlist + [self.numI+self.numR]            
+        self.iandrlist = self.iandrlist + [self.numI+self.numR]         
+        
+    def vaccinate(self):
+        if self.random: self.randomVacc()
+        else: self.targetedVacc()
 
-
+    def __getitem__(self,i):
+        return self.vertices[i]
 
 
 def main():
-    vaccinationpercent = 0
-    orderedpairlistHighEpi = []
-    orderedpairlistLowEpi = []
-    while vaccinationpercent < 200:
-        trials = 30
-        HighEpi = 0
-        FinalEpi = 0
-        for x in range(trials):
-
-
-
-            g = Graph(8, .9, 0, vaccinationpercent)   #k,p,r,%infected,%vaccinated
-            g.makeVertices(300)         #of people
-
-            g.makeConnections(.02)         #prob they are connected
-            g.update()            #number of repetitions, num trials
-            if g.getHighEpi():
-                HighEpi +=1
-            if g.getFinalEpi():
-                FinalEpi +=1
-        orderedpairlistHighEpi = orderedpairlistHighEpi + [[vaccinationpercent,(HighEpi/trials)*100]]
-        orderedpairlistLowEpi = orderedpairlistLowEpi + [[vaccinationpercent, (FinalEpi/trials)*100]]
-
-        y = (vaccinationpercent,(HighEpi/trials)*100 , (FinalEpi/trials)*100)
-
-        vaccinationpercent += 10
-    print(".05 at a time" , orderedpairlistHighEpi)
-    print(".10 at end time" , orderedpairlistLowEpi)
-
+    p = params.Params(8,.1,1000,.01,0,random = False) #k,p,N,rho,nu
+    g = Graph(p)
+    
 
 if __name__ == "__main__":
     main()

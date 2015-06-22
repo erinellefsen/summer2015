@@ -12,9 +12,14 @@ class Vertex:
         self.pred = None #Track infection
         self.status = 'S' 
         self.nextStatus = 'S'
+        self.hubScore=0
 
 
 
+    def setHubScore(self,val):
+        self.hubScore = val    
+    def getHubScore(self):
+        return self.hubScore
     def addSource(self,nbr):
         self.sourceTo += [nbr]
     def addDest(self,nbr):
