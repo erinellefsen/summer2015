@@ -1,4 +1,4 @@
-import vertexclass
+import vertex
 import disease
 import random
 import copy

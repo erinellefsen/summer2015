@@ -3,8 +3,9 @@ import disease
 import random
 import copy
 import tank
+import math
 class Graph:
-    def __init__(self,k,p,r, vaccinated = 0.0):
+    def __init__(self,k,p,r, vaccinated = 0):
         self.vertices = []
         self.k = k
         self.p = p
@@ -21,6 +22,7 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
+        self.q = 1-((1-p)**k)
 
     def getVertices(self):
         return self.vertices
@@ -29,7 +31,7 @@ class Graph:
         '''Helper function that creates all of the graphs vertex objects'''
         infected = random.randrange(0,numVertices)
         listofvaccinated = []
-        while len(listofvaccinated) < self.vaccine:
+        while len(listofvaccinated) < self.vaccine: #need to make vaccine a number not a percent 
             x = random.randrange(0,numVertices)
             if x != infected and x not in listofvaccinated:
                 listofvaccinated = listofvaccinated + [x]
@@ -37,36 +39,67 @@ class Graph:
             v = vertex.Vertex(item, disease.Disease(self.k,self.p,self.r))
             self.vertices = self.vertices + [v]
             if v.getId() == infected:
-                v.initialStatus("I")
+
+                v.initialStatus('I')
             if v.getId() in listofvaccinated:
-                v.initialStatus("V")
+                v.initialStatus('V')
+
+    def sumNeighbors(self, basic):
+        count = 0
+        if not basic:
+            for item in self.vertices:
+                lst = item.getConnections()
+                for vert in lst:
+                    if not vert.getStatus() == 'V':
+                        count += 1
+        if basic:
+            for bleh in self.vertices:
+                lst = bleh.getConnections()
+                count += len(lst)
+        return count
+
+
+
+    def calculateR(self, basic = False):
+
+        res = (self.sumNeighbors(basic)/float(len(self.vertices)))*self.q
+        return res
 
 
     def makeConnections(self,probOfConnection): 
         '''Helper Function that creates all of the graphs connections'''
+        count = 0
         for item in self.vertices:
-            for item2 in self.vertices:
-                if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    if random.random() < probOfConnection:
-                        item.addNeighbor(item2)
 
+            i = self.vertices.index(item) + 1
+            for x in range(i,len(self.vertices)):
+                item2 = self.vertices[x]
+                if random.random() < probOfConnection:
+                    item.addNeighbor(item2)
+                    count = count + 1
+
+
+        return count
 
     def makebetterClusteredConnections(self, standardprob):
+        
         for item in self.vertices:
-            for item2 in self.vertices:
-                if item.getId() != item2.getId() and item2 not in item.getConnections():
-                    x = item.getConnections()
-                    y = item2.getConnections()
-                    count = 0
-                    for connection in x:
-                        if connection in y:
-                            count +=1
-                    if count == 0:
-                        if random.random()<standardprob:
-                            item.addNeighbor(item2)
-                    else:
-                        if random.random() < count * standardprob:
-                            item.addNeighbor(item2)
+            i = self.vertices.index(item) + 1
+            for x in range(i,len(self.vertices)):
+                item2 = self.vertices[x]
+                
+                x = item.getConnections()
+                y = item2.getConnections()
+                count = 0
+                for connection in x:
+                    if connection in y:
+                        count +=1
+                if count == 0:
+                    if random.random()<standardprob:
+                        item.addNeighbor(item2)
+                else:
+                    if random.random() < (2*count+1) * standardprob:
+                        item.addNeighbor(item2)
 
 
     def makeVerticesAndConnections(self,numVertices,probOfConnection):
@@ -88,12 +121,16 @@ class Graph:
 
         self.vertices = self.copyVertices(self.original,self.vertices)                    
 
+
     def totalReset(self):
         self.resetCounts()
         self.resetLists()
         self.resetBools()
-        self.resetGraph()
+
+        self.resetGraph()           
+
         
+
     def resetLists(self):
         self.ilist,self.rlist,self.iandrlist = [],[],[]
     def resetBools(self):
@@ -121,6 +158,9 @@ class Graph:
     
     def getI(self):
         return self.numI
+
+    def getR(self):
+        return self.numR
     
     def countAndUpdateStatuses(self):
         '''Helper Function for update'''
@@ -180,16 +220,19 @@ def main():
     vaccinationpercent = 0
     orderedpairlistHighEpi = []
     orderedpairlistLowEpi = []
-    while vaccinationpercent < 1:
-        trials = 60
+    while vaccinationpercent < 200:
+        trials = 30
         HighEpi = 0
         FinalEpi = 0
         for x in range(trials):
 
+
+
             g = Graph(8, .9, 0, vaccinationpercent)   #k,p,r,%infected,%vaccinated
             g.makeVertices(300)         #of people
-            g.makebetterClusteredConnections(.005)         #prob they are connected
-            g.update(50)            #number of repetitions, num trials
+
+            g.makeConnections(.02)         #prob they are connected
+            g.update()            #number of repetitions, num trials
             if g.getHighEpi():
                 HighEpi +=1
             if g.getFinalEpi():
@@ -199,7 +242,7 @@ def main():
 
         y = (vaccinationpercent,(HighEpi/trials)*100 , (FinalEpi/trials)*100)
 
-        vaccinationpercent += .05
+        vaccinationpercent += 10
     print(".05 at a time" , orderedpairlistHighEpi)
     print(".10 at end time" , orderedpairlistLowEpi)
 
