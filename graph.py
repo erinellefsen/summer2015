@@ -5,7 +5,7 @@ import copy
 import tank
 import math
 import edge
-import params
+import params as pm 
 import networkx as nx
 
 class Graph:
@@ -39,7 +39,8 @@ class Graph:
         '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
         self.makeVertices()
         self.makeNewConnections()
-        self.calcHubs()
+        if not self.random:
+            self.calcHubs()
         self.vaccinate()
     
     def addEdge(self,edge):
@@ -250,22 +251,26 @@ class Graph:
         count = 0
         if not basic:
             for item in self.vertices:
-                lst = item.getConnections()
+                lst = item.getSourceTo()
                 for vert in lst:
                     if not vert.getStatus() == 'V':
                         count += 1
         if basic:
             for bleh in self.vertices:
-                lst = bleh.getConnections()
+                lst = bleh.getSourceTo()
                 count += len(lst)
         return count   
     
     def targetedVacc(self):
         dct = self.makeVertHubDict()
         keys = dct.keys()
-        keys.sort(key=lambda x : x.hubScore, reverse = True)
-        vaccLst = keys[int(self.numVerts*(1-self.percentVacc)):]
-        print("HERE IN TARGETED VACC")
+        keys.sort(key=lambda x : x.hubScore)
+        susLst, vaccLst = keys[0:int(self.numVerts*(1-self.percentVacc))], keys[int(self.numVerts*(1-self.percentVacc)):]
+        infected = random.randrange(0,len(susLst))
+        #print("HERE IN TARGETED VACC")
+        susLst[infected].initialStatus("I")
+        for vert in vaccLst:
+            vert.initialStatus('V')
         return vaccLst
         
     def totalReset(self):

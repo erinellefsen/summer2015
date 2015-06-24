@@ -78,3 +78,6 @@ def plot_implicit3d(fn, bbox=(0,5)):
     ax.set_zlim3d(zmin,zmax)    
     ax.set_xlim3d(xmin,xmax)
     ax.set_ylim3d(ymin,ymax)
+
+def eq( a, b, eps=0.000001 ):
+    return abs(a - b) <= eps
