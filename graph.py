@@ -5,11 +5,14 @@ import copy
 import tank
 import math
 import edge
-import params
+import group
+import numpy as np
+import params as pm
+
 
 
 class Graph:
-    def __init__(self,params):
+    def __init__(self,params,clustered = False):
         self.vertices = []
         self.edges = []
         self.k = params.k
@@ -28,19 +31,25 @@ class Graph:
         self.numR = 0
         self.highEpi = False
         self.finalEpi = False
-
+        self.grouplist = []
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
         self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
-
+        self.numGroups = int(6 + .01*self.numVerts)
         #self.makeVertices()
         #self.makeNewConnections()
         '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
         self.makeVertices()
-        self.makeNewConnections()
-        #self.calcHubs()
+        if clustered:
+            self.makeClusteredConnections()
+        if not clustered:
+            self.makeConnections()
         self.vaccinate()
+        #if not self.random:
+        #    self.calcHubs()
+
+        
     
     def addEdge(self,edge):
         self.edges += [edge]
@@ -76,8 +85,8 @@ class Graph:
         if self.numI > self.highThreshold*len(self.vertices):
             self.highEpi = True
     
-    def connect(self,source,dest):
-        if random.random() < self.rho: # check to see if this number 
+    def connect(self,source,dest, connprob):
+        if random.random() < connprob: # check to see if this number 
             source.addSource(dest)
             dest.addDest(source)
             ed = edge.Edge(source,dest,self.p) #or use some distribution counter (adjust edge)
@@ -117,6 +126,9 @@ class Graph:
         '''returns finalEpi, a boolean that says whether an overall epidemic occured  '''
         return self.finalEpi
     
+    def getGroupList(self):
+        return self.grouplist
+    
     def getI(self):
         return self.numI
     
@@ -134,38 +146,45 @@ class Graph:
     def getVertices(self):
         return self.vertices   
    
-    def makeBetterClusteredConnections(self, standardprob):
-        
-        for item in self.vertices:
-            i = self.vertices.index(item) + 1
-            for x in range(i,len(self.vertices)):
-                item2 = self.vertices[x]
-                
-                x = item.getConnections() 
-                y = item2.getConnections()
-                count = 0
-                for connection in x:
-                    if connection in y:
-                        count +=1
-                if count == 0:
-                    if random.random()<standardprob:
-                        item.addNeighbor(item2)
-                else:
-                    if random.random() < (2*count+1) * standardprob:
-                        item.addNeighbor(item2)
+    def makeClusteredConnections(self):
+        grouplst = self.makeGroups()
+        for group in grouplst:
+            probOfConn = group.getProbOfConn()
+            memberlst = group.getMembers()
+            for i in range(len(memberlst)):
+                member = memberlst[i]
+                for x in range(i+1,len(memberlst)):
+                    member2 = memberlst[x]
+                    self.twoWayConnect(member,member2,probOfConn)
     
-    def makeConnections(self): 
-        '''Helper Function that creates all of the graphs connections'''
-        count = 0
-        for item in self.vertices:
-
-            i = self.vertices.index(item) + 1
-            for x in range(i,len(self.vertices)):
-                item2 = self.vertices[x]
-                if random.random() < self.rho:
-                    item.addNeighbor(item2)
-                    count = count + 1
-        return count
+    def makeGroups(self): 
+         
+        numpeople = int(.8*self.numVerts)
+        track = 0
+        while track < numpeople:
+            people = int(math.ceil(np.random.normal(1.5,.5)))
+            g = group.Group(len(self.grouplist)+1,5/self.numVerts,1,self.p)
+            self.grouplist = self.grouplist + [g]
+            for x in range(track,track + people + 1):
+                g.addMember(self.vertices[x])
+            track = track + people + 1
+        numfamilies = len(self.grouplist)
+        for x in range(self.numGroups):
+            y = random.random()
+            if y > 0 and y <= .80:
+                propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
+                probofConn =  .175
+            if y > .80:
+                propIncl = np.random.normal((200*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
+                probofConn = .1
+            self.grouplist = self.grouplist + [group.Group(len(self.grouplist)+1, propIncl , probofConn, self.p)]
+        for x in range(numfamilies, len(self.grouplist)):
+            x = self.grouplist[x]
+            numIncl = int(x.getPropIncl())
+            includedlst = random.sample(range(self.numVerts),numIncl)
+            for y in includedlst:
+                x.addMember(self.vertices[y])        
+        return self.grouplist
     
     def makeNetworkX(self):
         G=nx.Graph()
@@ -179,20 +198,20 @@ class Graph:
         return G
         #nx.draw_networkx(G,node_size = 100,node_color="lightblue")
 
-    def makeNewConnections(self,twoWay=True): 
-        '''Helper Function that creates all of the graphs connections'''
-         
+    def makeConnections(self,  twoWay=True ): 
+        '''Helper Function that creates all of the graphs connections''' 
         for i in range(len(self.vertices)):
             item = self.vertices[i]
             for x in range(i+1,len(self.vertices)):
                 item2 = self.vertices[x]
                 if twoWay:
-                    self.twoWayConnect(item,item2)
+                    self.twoWayConnect(item,item2, self.rho)
                 else:
-                    self.connect(item,item2)
-                    self.connect(item2,item)
-                #if random.random() < probOfConnection:
-            
+                    self.connect(item,item2,self.rho)
+                    self.connect(item2,item,self.rho)
+                    #if random.random() < probOfConnection:
+
+
     def makeVertHubDict(self):
         resDct = {}
         for vert in self.vertices:
@@ -219,11 +238,8 @@ class Graph:
             x = random.randrange(0,self.numVerts)
             if x != infected and x not in listofvaccinated:
                 listofvaccinated = listofvaccinated + [x]
-    
         for v in self.vertices:
-            
             if v.getId() == infected:
-
                 v.initialStatus('I')
             if v.getId() in listofvaccinated:
                 v.initialStatus('V')
@@ -250,22 +266,30 @@ class Graph:
         count = 0
         if not basic:
             for item in self.vertices:
-                lst = item.getDestTo()
+
+                lst = item.getSourceTo()
+
                 for vert in lst:
                     if not vert.getStatus() == 'V':
                         count += 1
         if basic:
             for bleh in self.vertices:
-                lst = bleh.getDestTo()
+
+                lst = bleh.getSourceTo()
+
                 count += len(lst)
         return count   
     
     def targetedVacc(self):
         dct = self.makeVertHubDict()
         keys = dct.keys()
-        keys.sort(key=lambda x : x.hubScore, reverse = True)
-        vaccLst = keys[int(self.numVerts*(1-self.percentVacc)):]
-        print("HERE IN TARGETED VACC")
+        keys.sort(key=lambda x : x.hubScore)
+        susLst, vaccLst = keys[0:int(self.numVerts*(1-self.percentVacc))], keys[int(self.numVerts*(1-self.percentVacc)):]
+        infected = random.randrange(0,len(susLst))
+        #print("HERE IN TARGETED VACC")
+        susLst[infected].initialStatus("I")
+        for vert in vaccLst:
+            vert.initialStatus('V')
         return vaccLst
         
     def totalReset(self):
@@ -275,21 +299,24 @@ class Graph:
         self.resetGraph()           
 
     
-    def twoWayConnect(self,vert1,vert2):
-        if random.random() < self.rho: # check to see if this number 
-            vert1.addSource(vert2)
-            vert2.addDest(vert1)
-            ed = edge.Edge(vert1,vert2,self.p) #or use some distribution counter (adjust edge)
-            vert2.addSource(vert1)
-            vert1.addDest(vert2)
-            ed1 = edge.Edge(vert2,vert1,self.p) #or use some distribution counter
-            
-            vert2.addEdge(ed)
-            self.addEdge(ed)            
-            
-            vert1.addEdge(ed1)
-            self.addEdge(ed1)
-            
+    def twoWayConnect(self,vert1,vert2,connprob):
+        if random.random() < connprob: # check to see if this number 
+            if vert1 in vert2.getSourceTo():
+                pass
+            else:
+                vert1.addSource(vert2)
+                vert2.addDest(vert1)
+                ed = edge.Edge(vert1,vert2,self.p) #or use some distribution counter (adjust edge)
+                vert2.addSource(vert1)
+                vert1.addDest(vert2)
+                ed1 = edge.Edge(vert2,vert1,self.p) #or use some distribution counter
+
+                vert2.addEdge(ed)
+                self.addEdge(ed)            
+
+                vert1.addEdge(ed1)
+                self.addEdge(ed1)
+
     def update(self):
         self.countAndUpdateStatuses()
         self.updateLists()
