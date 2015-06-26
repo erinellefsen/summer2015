@@ -1,46 +1,33 @@
-import edge
+
 import disease
 
 class Vertex:
-    '''Vertices are passive. They do no Give the disease, rather, the disease spreads to them'''
     def __init__(self,key,disease):
         self.id = key
-        self.sourceTo = []
-        self.destTo = []  
-        self.edgeLst = [] # may not be necessary
+        self.connectedTo = []
         self.disease = disease
         self.pred = None #Track infection
         self.status = 'S' 
         self.nextStatus = 'S'
-        self.hubScore=0
 
 
+    def addNeighbor(self,nbr):
+        self.connectedTo = self.connectedTo + [nbr]
 
-    def setHubScore(self,val):
-        self.hubScore = val    
-    def getHubScore(self):
-        return self.hubScore
-    def addSource(self,nbr):
-        self.sourceTo += [nbr]
-    def addDest(self,nbr):
-        self.destTo += [nbr]
-    def addEdge(self,edge):
-        self.edgeLst += [edge]
-        
+        if self not in nbr.getConnections():
+            nbr.addNeighbor(self)
     def __repr__(self):
         return self.__str__()
 
     def __str__(self):
         return str(self.id) + " : " + self.status
 
-    def getSourceTo(self):
-        return self.sourceTo
-    
-    def getDestTo(self):
-        return self.destTo
+
+    def getConnections(self):
+        return self.connectedTo
 
     def __iter__(self):
-        return iter(self.sourceTo)
+        return iter(self.connectedTo)
 
     def getId(self):
         return self.id
@@ -74,19 +61,21 @@ class Vertex:
         the vertex's status will be updated.
 
         '''
-        
         self.status = self.nextStatus
-        if self.getStatus()== 'S':
-            for i in self.edgeLst:
-                if i.getSource().getStatus()=='I':
-                    if i.checkSpread():
+        if self.getStatus() == 'S':
+            for i in self.getConnections():
+                if i.getStatus() == 'I':
+                    if self.disease.checkSpread():
                         self.nextStatus = 'I'
-        elif self.getStatus() == "I":
+        elif self.getStatus() == 'I':
             self.incInfection()
             if self.disease.checkRecovered():
-                self.nextStatus = "R"
+                self.nextStatus = 'R'
+            
         else:
             return
+        
+            
 def main():
     d = disease.Disease(3,.45,.1)
     v = Vertex('A',d)

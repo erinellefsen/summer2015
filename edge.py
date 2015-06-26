@@ -1,6 +1,5 @@
 import vertex
 import random
-import numpy as np
 
 class Edge():
     '''An Edge class makes a directed connection from vertA to vertB with weight w'''
