@@ -37,7 +37,7 @@ class Graph:
         self.finalThreshold = .1
         self.original = []
         self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
-        self.numGroups = int(6 + .01*self.numVerts)
+        self.numGroups = int(6 + .03*self.numVerts)
         #self.makeVertices()
         #self.makeNewConnections()
         '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
@@ -171,7 +171,7 @@ class Graph:
     
     def makeGroups(self): 
          
-        numpeople = int(.99*self.numVerts)
+        numpeople = int(.8*self.numVerts)
         track = 0
         while track < numpeople:
             people = int(math.ceil(np.random.normal(1.5,.5)))
@@ -183,12 +183,15 @@ class Graph:
         numfamilies = len(self.grouplist)
         for x in range(self.numGroups):
             y = random.random()
-            if y > 0 and y <= .90:
+            if y > 0 and y <= .30:
                 propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn =  .175
+                probofConn =  .07
+            if y > .30 and y <= .80:
+                propIncl = np.random.normal((10*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
+                probofConn = .8
             if y > .80:
-                propIncl = np.random.normal((200*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn = .1
+                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
+                probofConn = .03
             self.grouplist = self.grouplist + [group.Group(len(self.grouplist)+1, propIncl , probofConn, self.p)]
         for x in range(numfamilies, len(self.grouplist)):
             x = self.grouplist[x]
