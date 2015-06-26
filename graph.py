@@ -159,7 +159,7 @@ class Graph:
     
     def makeGroups(self): 
          
-        numpeople = int(.8*self.numVerts)
+        numpeople = int(.99*self.numVerts)
         track = 0
         while track < numpeople:
             people = int(math.ceil(np.random.normal(1.5,.5)))
@@ -171,7 +171,7 @@ class Graph:
         numfamilies = len(self.grouplist)
         for x in range(self.numGroups):
             y = random.random()
-            if y > 0 and y <= .80:
+            if y > 0 and y <= .90:
                 propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
                 probofConn =  .175
             if y > .80:

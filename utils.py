@@ -28,8 +28,15 @@ def plot_implicit2d(fn, rangeX=(0,4),rangeY=(0,1),ax=None):
     ax.set_ylim(ymin,ymax)
     return fn.func_name
     
-def continuousInfection(x,y,N=2000,nu=400): #CHECK THIS OUT AND DON'T FORGET THAT SOME ARE VACCINATED
-    return (np.log((2000-1-400)/(2000*(1-y)))-x*y)
+def continuousInfection(x,y,N=2000,nu=0): #CHECK THIS OUT AND DON'T FORGET THAT SOME ARE VACCINATED
+    return (np.log((2000-1)/(2000*(1-y)))-x*y)
+
+def continuousInfection2(x,y,N=2000,nu=400): #CHECK THIS OUT AND DON'T FORGET THAT SOME ARE VACCINATED
+    return (np.log((2000-1-400)/(2000*(1-y)-400))-x*y)
+def continuousInfection4(x,y,N=2000,nu=800): #CHECK THIS OUT AND DON'T FORGET THAT SOME ARE VACCINATED
+    return (np.log((2000-1-800)/(2000*(1-y)-800))-x*y)
+def continuousInfection6(x,y,N=2000,nu=1200): #CHECK THIS OUT AND DON'T FORGET THAT SOME ARE VACCINATED
+    return (np.log((2000-1-1200)/(2000*(1-y)-1200))-x*y)
 
 def plot_implicit3d(fn, bbox=(0,5)):
     ''' create a plot of an implicit function
