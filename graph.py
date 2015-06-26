@@ -8,11 +8,11 @@ import edge
 import group
 import numpy as np
 import params as pm
-
+import networkx as nx
 
 
 class Graph:
-    def __init__(self,params,clustered = False):
+    def __init__(self,params,clustered = False,lattice = False):
         self.vertices = []
         self.edges = []
         self.k = params.k
@@ -29,6 +29,7 @@ class Graph:
         self.numS = 0
         self.numI = 0
         self.numR = 0
+        self.nx = None
         self.highEpi = False
         self.finalEpi = False
         self.grouplist = []
@@ -40,12 +41,15 @@ class Graph:
         #self.makeVertices()
         #self.makeNewConnections()
         '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
-        self.makeVertices()
+        
         if clustered:
+            self.makeVertices()
             self.makeClusteredConnections()
-        if not clustered:
+            self.vaccinate()
+        if random:
+            self.makeVertices()
             self.makeConnections()
-        self.vaccinate()
+            self.vaccinate()
         #if not self.random:
         #    self.calcHubs()
 
@@ -55,8 +59,9 @@ class Graph:
         self.edges += [edge]
     
     def calcHubs(self):
-        g = self.makeNetworkX()
-        paths = nx.shortest_path_length(g)
+        if self.nx == None:
+            self.nx = self.makeNetworkX()
+        paths = nx.shortest_path_length(self.nx)
         for vert in self.vertices:
             distLst = []
 
@@ -113,6 +118,13 @@ class Graph:
                 self.numR += 1
             item.updateVertex()
     
+    def getClusteringCoefficient(self):
+        if self.nx == None:
+            self.nx = self.makeNetworkX()
+        ccLst = nx.clustering(self.nx).values()
+        res = np.mean(ccLst)
+        return res
+        
     def getEdges(self):
         return self.edges
         
@@ -343,8 +355,9 @@ class Graph:
 
 
 def main():
-    p = params.Params(8,.1,1000,.01,0,random = False) #k,p,N,rho,nu
-    g = Graph(p)
+    p = pm.Params(8,.1,1000,.01,0,random = False) #k,p,N,rho,nu
+    g = Graph(p,clustered = True)
+    print(g.getClusteringCoefficient())
     
 
 if __name__ == "__main__":
