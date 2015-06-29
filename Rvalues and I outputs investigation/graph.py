@@ -12,7 +12,7 @@ import networkx as nx
 
 
 class Graph:
-    def __init__(self,params,clustered = False,lattice = False):
+    def __init__(self,params,random = False, clustered = False,lattice = False):
         self.vertices = []
         self.edges = []
         self.k = params.k
