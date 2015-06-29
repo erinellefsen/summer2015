@@ -12,7 +12,7 @@ import networkx as nx
 
 
 class Graph:
-    def __init__(self,params,random = True,clustered = False,lattice = False):
+    def __init__(self,params,random = False,clustered = False,lattice = False):
         self.vertices = []
         self.edges = []
         self.k = params.k
@@ -37,9 +37,8 @@ class Graph:
         self.finalThreshold = .1
         self.original = []
         self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
-
-        self.numGroups = int(6 + .03*self.numVerts)
-
+        self.numGroups = int(6 + .01*self.numVerts)
+        
         #self.makeVertices()
         #self.makeNewConnections()
         '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
@@ -189,15 +188,12 @@ class Graph:
         numfamilies = len(self.grouplist)
         for x in range(self.numGroups):
             y = random.random()
-            if y > 0 and y <= .30:
+            if y > 0 and y <= .80:
                 propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn =  .07
-            if y > .30 and y <= .80:
-                propIncl = np.random.normal((10*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn = .8
+                probofConn =  .175
             if y > .80:
-                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn = .03
+                propIncl = np.random.normal((200*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
+                probofConn = .1
             self.grouplist = self.grouplist + [group.Group(len(self.grouplist)+1, propIncl , probofConn, self.p)]
         for x in range(numfamilies, len(self.grouplist)):
             x = self.grouplist[x]
