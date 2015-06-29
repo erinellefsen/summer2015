@@ -12,7 +12,7 @@ import networkx as nx
 
 
 class Graph:
-    def __init__(self,params,clustered = False,lattice = False):
+    def __init__(self,params,random = True,clustered = False,lattice = False):
         self.vertices = []
         self.edges = []
         self.k = params.k
@@ -22,7 +22,7 @@ class Graph:
         self.nu = params.numVacc    #number of vaccinated individuals
         self.rho = params.connectionProb  #percent of population each node should connect to
         self.percentVacc = params.percentVacc
-        self.random = params.random
+        self.targeted = params.targeted
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
@@ -37,19 +37,25 @@ class Graph:
         self.finalThreshold = .1
         self.original = []
         self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
+
         self.numGroups = int(6 + .03*self.numVerts)
+
         #self.makeVertices()
         #self.makeNewConnections()
         '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
         
+        self.random=random
+        self.clustered=clustered
+        
+        
         if clustered:
             self.makeVertices()
             self.makeClusteredConnections()
-            self.vaccinate()
+            self.vaccinate(self.targeted)
         if random:
             self.makeVertices()
             self.makeConnections()
-            self.vaccinate()
+            self.vaccinate(self.targeted)
         #if not self.random:
         #    self.calcHubs()
 
@@ -349,8 +355,8 @@ class Graph:
         self.rlist = self.rlist + [self.numR]
         self.iandrlist = self.iandrlist + [self.numI+self.numR]         
         
-    def vaccinate(self):
-        if self.random: self.randomVacc()
+    def vaccinate(self,targeted):
+        if targeted: self.randomVacc()
         else: self.targetedVacc()
 
     def __getitem__(self,i):
@@ -358,7 +364,7 @@ class Graph:
 
 
 def main():
-    p = pm.Params(8,.1,1000,.01,0,random = False) #k,p,N,rho,nu
+    p = pm.Params(8,.1,10000,.01,0,random = False) #k,p,N,rho,nu
     g = Graph(p,clustered = True)
     print(g.getClusteringCoefficient())
     
