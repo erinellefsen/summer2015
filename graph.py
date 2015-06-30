@@ -64,8 +64,8 @@ class Graph:
         self.edges += [edge]
     
     def calcHubs(self):
-        if self.nx == None:
-            self.nx = self.makeNetworkX()
+        
+        self.makeNetworkX()
         paths = nx.shortest_path_length(self.nx)
         for vert in self.vertices:
             distLst = []
@@ -124,8 +124,8 @@ class Graph:
             item.updateVertex()
     
     def getClusteringCoefficient(self):
-        if self.nx == None:
-            self.nx = self.makeNetworkX()
+        
+        self.makeNetworkX()
         ccLst = nx.clustering(self.nx).values()
         res = np.mean(ccLst)
         return res
@@ -204,15 +204,16 @@ class Graph:
         return self.grouplist
     
     def makeNetworkX(self):
-        G=nx.Graph()
-        G.add_nodes_from(self.getVertices())
-        edgeLst = []
-        for vert in self.getVertices():
-            connections = vert.getDestTo()
-            for i in connections:
-                edgeLst.append([vert,i])
-        G.add_edges_from(edgeLst)
-        return G
+        if self.nx ==None:
+            G=nx.Graph()
+            G.add_nodes_from(self.getVertices())
+            edgeLst = []
+            for vert in self.getVertices():
+                connections = vert.getDestTo()
+                for i in connections:
+                    edgeLst.append([vert,i])
+            G.add_edges_from(edgeLst)
+            self.nx = G
         #nx.draw_networkx(G,node_size = 100,node_color="lightblue")
 
     def makeConnections(self,  twoWay=True ): 
