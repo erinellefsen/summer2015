@@ -36,8 +36,8 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
-        self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
-        self.numGroups = int(6 + .01*self.numVerts)
+        self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor.
+        self.numGroups = int(6 + .03*self.numVerts)
         
         #self.makeVertices()
         #self.makeNewConnections()
@@ -52,6 +52,7 @@ class Graph:
             self.makeClusteredConnections()
             self.vaccinate(self.targeted)
         if random:
+            print("graph being made")
             self.makeVertices()
             self.makeConnections()
             self.vaccinate(self.targeted)
@@ -97,11 +98,12 @@ class Graph:
     
     def connect(self,source,dest, connprob):
         if random.random() < connprob: # check to see if this number 
-            source.addSource(dest)
-            dest.addDest(source)
-            ed = edge.Edge(source,dest,self.p) #or use some distribution counter (adjust edge)
-            dest.addEdge(ed)
-            self.addEdge(ed)   
+            if dest not in source.getSourceTo():
+                source.addSource(dest)
+                dest.addDest(source)
+                ed = edge.Edge(source,dest,self.p) #or use some distribution counter (adjust edge)
+                dest.addEdge(ed)
+                self.addEdge(ed)   
     
     def copyVertices(self,source,dest):
         '''This function saves the first state of the graph, after vertices and connections have been made'''
@@ -122,7 +124,21 @@ class Graph:
             if item.getStatus() == 'R':
                 self.numR += 1
             item.updateVertex()
-    
+    def fromEdgeList(self,edgeLst):
+        acc = 0
+        for edge in edgeLst:
+            if acc%1000==0: print(acc)
+            s = edge.getSource()
+            d = edge.getDest()
+            if s not in self.vertices:
+                self.vertices.append(s)
+            if d not in self.vertices:
+                self.vertices.append(d)
+            acc +=1
+            
+            
+        self.vertices.sort(key=lambda x: x.id, reverse=True)
+        
     def getClusteringCoefficient(self):
         
         self.makeNetworkX()
@@ -179,7 +195,7 @@ class Graph:
         numpeople = int(.8*self.numVerts)
         track = 0
         while track < numpeople:
-            people = int(math.ceil(np.random.normal(1.5,.5)))
+            people = int(math.ceil(np.random.normal(2.5,.5)))
             g = group.Group(len(self.grouplist)+1,5/self.numVerts,1,self.p)
             self.grouplist = self.grouplist + [g]
             for x in range(track,track + people + 1):
@@ -188,12 +204,15 @@ class Graph:
         numfamilies = len(self.grouplist)
         for x in range(self.numGroups):
             y = random.random()
-            if y > 0 and y <= .80:
+            if y > 0 and y <= .30:
                 propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn =  .175
+                probofConn =  .07
+            if y > .30 and y <= .80:
+                propIncl = np.random.normal((10*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
+                probofConn = .8
             if y > .80:
-                propIncl = np.random.normal((200*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn = .1
+                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
+                probofConn = .03
             self.grouplist = self.grouplist + [group.Group(len(self.grouplist)+1, propIncl , probofConn, self.p)]
         for x in range(numfamilies, len(self.grouplist)):
             x = self.grouplist[x]
