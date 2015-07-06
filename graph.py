@@ -36,8 +36,10 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
-        self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor.
-        self.numGroups = int(6 + .03*self.numVerts)
+
+        self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
+
+        self.numGroups = int(6 + .05*self.numVerts)
         
         #self.makeVertices()
         #self.makeNewConnections()
@@ -195,26 +197,38 @@ class Graph:
         numpeople = int(.8*self.numVerts)
         track = 0
         while track < numpeople:
-            people = int(math.ceil(np.random.normal(2.5,.5)))
+            people = int(math.ceil(np.random.normal(3.2,.5)))
             g = group.Group(len(self.grouplist)+1,5/self.numVerts,1,self.p)
             self.grouplist = self.grouplist + [g]
             for x in range(track,track + people + 1):
                 g.addMember(self.vertices[x])
             track = track + people + 1
+        track = 0
+        while track < self.numVerts:
+            people = int(math.ceil(np.random.normal(7,2)))
+            g = group.Group(len(self.grouplist) + 1, 5/self.numVerts,.8,self.p)
+            self.grouplist = self.grouplist + [g]
+            lis = random.sample(range(self.numVerts),people)
+            for person in lis:
+                g.addMember(self.vertices[person])
+            track = track + people + 1
         numfamilies = len(self.grouplist)
         for x in range(self.numGroups):
             y = random.random()
-            if y > 0 and y <= .30:
-                propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
+            if y > 0 and y <= .3:
+                propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),5)
                 probofConn =  .07
-            if y > .30 and y <= .80:
-                propIncl = np.random.normal((10*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn = .8
-            if y > .80:
-                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
+            if y > .3 and y <= .6:
+                propIncl = np.random.normal((30*self.numVerts)/(500+self.numVerts),3)
+                probofConn = .15
+            if y > .6 and y <= .8:
+                propIncl = np.random.normal((100*self.numVerts)/(1000+self.numVerts),7)
+                probofConn = .06                
+            if y > .8:
+                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),10)
                 probofConn = .03
             self.grouplist = self.grouplist + [group.Group(len(self.grouplist)+1, propIncl , probofConn, self.p)]
-        for x in range(numfamilies, len(self.grouplist)):
+        for x in range(numfamilies+1, len(self.grouplist)):
             x = self.grouplist[x]
             numIncl = int(x.getPropIncl())
             includedlst = random.sample(range(self.numVerts),numIncl)
