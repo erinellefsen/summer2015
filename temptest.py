@@ -18,7 +18,7 @@ with open(fileName+'.pkl', 'wb') as output:
 del company1
 del company2
 
-with open('company_data.pkl', 'rb') as input:
+with open(fileName+'.pkl', 'rb') as input:
     company1 = pickle.load(input)
     print(company1.name)  # -> banana
     print(company1.value)  # -> 40

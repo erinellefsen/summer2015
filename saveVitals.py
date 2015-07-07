@@ -6,7 +6,7 @@ import minimalGraph as mg
 import random 
 import sys
 
-pop = 40
+pop = 4000
 vaccLst = [0,.2,.4,.6,.8]
 print("1% Completed")
 accu = 0
@@ -86,21 +86,9 @@ for ind in range(1):
 
                 p+= .04
             accu += 1
-            print(str(int(accu*(100.0/15.0))+"% Completed"))
+            print(str(int(accu*(100.0/3.0)))+"% Completed")
     output1.close()
-    print(str((ind+1)*20)+"% Completed")
 #'''
-                  
-                  
-                  
-                  
-                  
-#!/usr/bin/python
-
-import sys
-
-print 'Number of arguments:', len(sys.argv), 'arguments.'
-print 'Argument List:', str(sys.argv)
 
 
 

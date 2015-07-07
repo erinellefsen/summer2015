@@ -54,7 +54,6 @@ class Graph:
             self.makeClusteredConnections()
             self.vaccinate(self.targeted)
         if random:
-            print("graph being made")
             self.makeVertices()
             self.makeConnections()
             self.vaccinate(self.targeted)
@@ -192,20 +191,20 @@ class Graph:
                     member2 = memberlst[x]
                     self.twoWayConnect(member,member2,probOfConn)
     
-    def makeGroups(self): 
-         
+    def makeGroups(self):
+
         numpeople = int(.8*self.numVerts)
         track = 0
-        while track < numpeople:
-            people = int(math.ceil(np.random.normal(3.2,.5)))
+        while track < numpeople: #families
+            people = int(math.ceil(max(np.random.normal(3.2,.5),2)))
             g = group.Group(len(self.grouplist)+1,5/self.numVerts,1,self.p)
             self.grouplist = self.grouplist + [g]
             for x in range(track,track + people + 1):
                 g.addMember(self.vertices[x])
             track = track + people + 1
         track = 0
-        while track < self.numVerts:
-            people = int(math.ceil(np.random.normal(7,2)))
+        while track < self.numVerts: #friends
+            people = int(math.ceil(max(np.random.normal(7,2),4)))
             g = group.Group(len(self.grouplist) + 1, 5/self.numVerts,.8,self.p)
             self.grouplist = self.grouplist + [g]
             lis = random.sample(range(self.numVerts),people)
@@ -215,17 +214,17 @@ class Graph:
         numfamilies = len(self.grouplist)
         for x in range(self.numGroups):
             y = random.random()
-            if y > 0 and y <= .3:
-                propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),5)
+            if y > 0 and y <= .3: 
+                propIncl = max(np.random.normal((50*self.numVerts)/(500+self.numVerts),5),10)
                 probofConn =  .07
             if y > .3 and y <= .6:
-                propIncl = np.random.normal((30*self.numVerts)/(500+self.numVerts),3)
+                propIncl = max(np.random.normal((30*self.numVerts)/(500+self.numVerts),3),10)
                 probofConn = .15
             if y > .6 and y <= .8:
-                propIncl = np.random.normal((100*self.numVerts)/(1000+self.numVerts),7)
-                probofConn = .06                
+                propIncl = max(np.random.normal((100*self.numVerts)/(1000+self.numVerts),7),10)
+                probofConn = .06
             if y > .8:
-                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),10)
+                propIncl = max(np.random.normal((250*self.numVerts)/(2000+self.numVerts),10),10)
                 probofConn = .03
             self.grouplist = self.grouplist + [group.Group(len(self.grouplist)+1, propIncl , probofConn, self.p)]
         for x in range(numfamilies+1, len(self.grouplist)):
@@ -233,9 +232,9 @@ class Graph:
             numIncl = int(x.getPropIncl())
             includedlst = random.sample(range(self.numVerts),numIncl)
             for y in includedlst:
-                x.addMember(self.vertices[y])        
+                x.addMember(self.vertices[y])
         return self.grouplist
-    
+
     def makeNetworkX(self):
         if self.nx ==None:
             G=nx.Graph()
@@ -386,7 +385,7 @@ class Graph:
         self.iandrlist = self.iandrlist + [self.numI+self.numR]         
         
     def vaccinate(self,targeted):
-        if not targetd: self.randomVacc()
+        if not targeted: self.randomVacc()
         else: self.targetedVacc()
 
     def __getitem__(self,i):

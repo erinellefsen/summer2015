@@ -1,7 +1,7 @@
 #!/bin/bash
 
 COUNTER=1
-while [[ $COUNTER -lt 5 ]]; 
+while [[ $COUNTER -lt 2 ]]; 
 do
     python2 saveVitals.py clusteredGraphs$COUNTER--0 $1 .0
     python2 saveVitals.py clusteredGraphs$COUNTER--20 $1 .2
