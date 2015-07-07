@@ -86,7 +86,7 @@ for ind in range(1):
 
                 p+= .04
             accu += 1
-            print(str(int(accu*(100.0/3.0)))+"% Completed")
+            #print(str(int(accu*(100.0/3.0)))+"% Completed")
     output1.close()
 #'''
 
