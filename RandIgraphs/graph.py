@@ -12,7 +12,7 @@ import networkx as nx
 
 
 class Graph:
-    def __init__(self,params,random = False, clustered = False,lattice = False):
+    def __init__(self,params,random = False,clustered = False,lattice = False):
         self.vertices = []
         self.edges = []
         self.k = params.k
@@ -22,7 +22,7 @@ class Graph:
         self.nu = params.numVacc    #number of vaccinated individuals
         self.rho = params.connectionProb  #percent of population each node should connect to
         self.percentVacc = params.percentVacc
-        self.random = params.random
+        self.targeted = params.targeted
         self.ilist = []
         self.rlist = []
         self.iandrlist = []
@@ -36,20 +36,28 @@ class Graph:
         self.highThreshold = .05
         self.finalThreshold = .1
         self.original = []
+
         self.q = 1-((1-self.p)**self.k) #succes of spread to neighbor. 
-        self.numGroups = int(6 + .03*self.numVerts)
+
+        self.numGroups = int(6 + .05*self.numVerts)
+        
         #self.makeVertices()
         #self.makeNewConnections()
         '''make vertices. make connections. Calculate hubscores. infect 1. vaccinate, either randomly or with targeted vaccination'''
         
+        self.random=random
+        self.clustered=clustered
+        
+        
         if clustered:
             self.makeVertices()
             self.makeClusteredConnections()
-            self.vaccinate()
+            self.vaccinate(self.targeted)
         if random:
+            print("graph being made")
             self.makeVertices()
             self.makeConnections()
-            self.vaccinate()
+            self.vaccinate(self.targeted)
         #if not self.random:
         #    self.calcHubs()
 
@@ -59,8 +67,8 @@ class Graph:
         self.edges += [edge]
     
     def calcHubs(self):
-        if self.nx == None:
-            self.nx = self.makeNetworkX()
+        
+        self.makeNetworkX()
         paths = nx.shortest_path_length(self.nx)
         for vert in self.vertices:
             distLst = []
@@ -92,11 +100,12 @@ class Graph:
     
     def connect(self,source,dest, connprob):
         if random.random() < connprob: # check to see if this number 
-            source.addSource(dest)
-            dest.addDest(source)
-            ed = edge.Edge(source,dest,self.p) #or use some distribution counter (adjust edge)
-            dest.addEdge(ed)
-            self.addEdge(ed)   
+            if dest not in source.getSourceTo():
+                source.addSource(dest)
+                dest.addDest(source)
+                ed = edge.Edge(source,dest,self.p) #or use some distribution counter (adjust edge)
+                dest.addEdge(ed)
+                self.addEdge(ed)   
     
     def copyVertices(self,source,dest):
         '''This function saves the first state of the graph, after vertices and connections have been made'''
@@ -117,10 +126,24 @@ class Graph:
             if item.getStatus() == 'R':
                 self.numR += 1
             item.updateVertex()
-    
+    def fromEdgeList(self,edgeLst):
+        acc = 0
+        for edge in edgeLst:
+            if acc%1000==0: print(acc)
+            s = edge.getSource()
+            d = edge.getDest()
+            if s not in self.vertices:
+                self.vertices.append(s)
+            if d not in self.vertices:
+                self.vertices.append(d)
+            acc +=1
+            
+            
+        self.vertices.sort(key=lambda x: x.id, reverse=True)
+        
     def getClusteringCoefficient(self):
-        if self.nx == None:
-            self.nx = self.makeNetworkX()
+        
+        self.makeNetworkX()
         ccLst = nx.clustering(self.nx).values()
         res = np.mean(ccLst)
         return res
@@ -174,26 +197,38 @@ class Graph:
         numpeople = int(.8*self.numVerts)
         track = 0
         while track < numpeople:
-            people = int(math.ceil(np.random.normal(1.5,.5)))
+            people = int(math.ceil(np.random.normal(3.2,.5)))
             g = group.Group(len(self.grouplist)+1,5/self.numVerts,1,self.p)
             self.grouplist = self.grouplist + [g]
             for x in range(track,track + people + 1):
                 g.addMember(self.vertices[x])
             track = track + people + 1
+        track = 0
+        while track < self.numVerts:
+            people = int(math.ceil(np.random.normal(7,1)))
+            g = group.Group(len(self.grouplist) + 1, 5/self.numVerts,.8,self.p)
+            self.grouplist = self.grouplist + [g]
+            lis = random.sample(range(self.numVerts),people)
+            for person in lis:
+                g.addMember(self.vertices[person])
+            track = track + people + 1
         numfamilies = len(self.grouplist)
         for x in range(self.numGroups):
             y = random.random()
-            if y > 0 and y <= .30:
-                propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
+            if y > 0 and y <= .3:
+                propIncl = np.random.normal((50*self.numVerts)/(500+self.numVerts),5)
                 probofConn =  .07
-            if y > .30 and y <= .80:
-                propIncl = np.random.normal((10*self.numVerts)/(500+self.numVerts),(20000+self.numVerts)/(20000))
-                probofConn = .8
-            if y > .80:
-                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),(20000+self.numVerts)/(20000))
+            if y > .3 and y <= .6:
+                propIncl = np.random.normal((30*self.numVerts)/(500+self.numVerts),3)
+                probofConn = .15
+            if y > .6 and y <= .8:
+                propIncl = np.random.normal((100*self.numVerts)/(1000+self.numVerts),7)
+                probofConn = .06                
+            if y > .8:
+                propIncl = np.random.normal((250*self.numVerts)/(2000+self.numVerts),10)
                 probofConn = .03
             self.grouplist = self.grouplist + [group.Group(len(self.grouplist)+1, propIncl , probofConn, self.p)]
-        for x in range(numfamilies, len(self.grouplist)):
+        for x in range(numfamilies+1, len(self.grouplist)):
             x = self.grouplist[x]
             numIncl = int(x.getPropIncl())
             includedlst = random.sample(range(self.numVerts),numIncl)
@@ -202,15 +237,16 @@ class Graph:
         return self.grouplist
     
     def makeNetworkX(self):
-        G=nx.Graph()
-        G.add_nodes_from(self.getVertices())
-        edgeLst = []
-        for vert in self.getVertices():
-            connections = vert.getDestTo()
-            for i in connections:
-                edgeLst.append([vert,i])
-        G.add_edges_from(edgeLst)
-        return G
+        if self.nx ==None:
+            G=nx.Graph()
+            G.add_nodes_from(self.getVertices())
+            edgeLst = []
+            for vert in self.getVertices():
+                connections = vert.getDestTo()
+                for i in connections:
+                    edgeLst.append([vert,i])
+            G.add_edges_from(edgeLst)
+            self.nx = G
         #nx.draw_networkx(G,node_size = 100,node_color="lightblue")
 
     def makeConnections(self,  twoWay=True ): 
@@ -349,8 +385,8 @@ class Graph:
         self.rlist = self.rlist + [self.numR]
         self.iandrlist = self.iandrlist + [self.numI+self.numR]         
         
-    def vaccinate(self):
-        if self.random: self.randomVacc()
+    def vaccinate(self,targeted):
+        if targeted: self.randomVacc()
         else: self.targetedVacc()
 
     def __getitem__(self,i):
@@ -358,7 +394,7 @@ class Graph:
 
 
 def main():
-    p = pm.Params(8,.1,1000,.01,0,random = False) #k,p,N,rho,nu
+    p = pm.Params(8,.1,10000,.01,0,random = False) #k,p,N,rho,nu
     g = Graph(p,clustered = True)
     print(g.getClusteringCoefficient())
     
