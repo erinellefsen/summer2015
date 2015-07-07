@@ -372,7 +372,7 @@ class Graph:
         self.iandrlist = self.iandrlist + [self.numI+self.numR]         
         
     def vaccinate(self,targeted):
-        if targeted: self.randomVacc()
+        if not targetd: self.randomVacc()
         else: self.targetedVacc()
 
     def __getitem__(self,i):

@@ -7,7 +7,7 @@ from datetime import datetime
 import minimalGraph as mg
 
 initial = datetime.now()
-
+'''
 p1 = pm.Params(3,.1,4000,.05,0) #k,p,N,rho,nu
 #p2 = pm.Params(1,.9, 1500,.5,0) 
 g1 = graph.Graph(p1,random=True)
@@ -40,37 +40,40 @@ with open('testPickledObjs.pkl', 'wb') as output:
     print "dumped ", t4-t3 
     
     output.close()
-
-with open('testPickledObjs.pkl', 'rb') as inputFile:
+'''
+with open('otherSavedThings/graphs4000num1--RANDOM1.pkl', 'rb') as inputFile:
     unPickler = pickle.Unpickler(inputFile)
-    pt1 = unPickler.load()
-    #pt2 = unPickler.load()
-    t5=datetime.now()
-    print "loaded ",t5-t4
-    
-    g6 = pt1.lift()
-    #g7 = pt2.lift()
-    t6 = datetime.now()
-    print "lifted ",t6-t5
-    
-    #print(g6.numVerts)
-    #print(g7.numVerts)
+    for i in range(100):
+        pt1 = unPickler.load()
+        #pt2 = unPickler.load()
+        #t5=datetime.now()
+        #print "loaded ",t5-initial
+
+        g6 = pt1.lift()
+        #g7 = pt2.lift()
+        #t6 = datetime.now()
+        #print "lifted ",t6-t5
+        print(g6)
+
+
+        #print(g6.numVerts)
+        #print(g7.numVerts)
     inputFile.close()
-    
-    print(len(g6.edges))
-    g = g6.expand()
-    print "after " ,g.calculateR()
-#        def copyVertices(self,source,dest):
 
-#        source_tank = tank.Tank(source)
-#        dest_tank = copy.deepcopy(source_tank)
-#        source = source_tank.lift()
-#        dest = dest_tank.lift()
-#        return dest  ''' 
-                       
+        #rint(len(g6.edges))
+        #g = g6.expand()
+        #print "after " ,g.calculateR()
+    #        def copyVertices(self,source,dest):
 
-#R_0
-#Params
-#prop infected
-#clustering coefficient?
-#list of vertices/edges
+    #        source_tank = tank.Tank(source)
+    #        dest_tank = copy.deepcopy(source_tank)
+    #        source = source_tank.lift()
+    #        dest = dest_tank.lift()
+    #        return dest  ''' 
+
+
+    #R_0
+    #Params
+    #prop infected
+    #clustering coefficient?
+    #list of vertices/edges

@@ -1,3 +1,4 @@
+import sys
 import pickle
 
 class Company(object):
@@ -5,7 +6,9 @@ class Company(object):
         self.name = name
         self.value = value
 
-with open('company_data.pkl', 'wb') as output:
+        
+fileName = sys.argv[1]
+with open(fileName+'.pkl', 'wb') as output:
     company1 = Company('banana', 40)
     pickle.dump(company1, output, pickle.HIGHEST_PROTOCOL)
 
