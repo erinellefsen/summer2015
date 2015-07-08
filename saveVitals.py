@@ -51,43 +51,20 @@ for ind in range(1):
     '''
     with open(str(sys.argv[2])+"/"+str(sys.argv[1])+".pkl", 'wb') as output1:
         pickler = pickle.Pickler(output1,-1)
-        for inde in range(3):
-            k=3
-            p=.05
-            vaccination = 0
-            for index in range(10):
-                rho = random.uniform(0.0015,0.004)
-                prams = pm.Params(k,.1,pop,rho,float(sys.argv[3])*pop,targeted= False)
-               
-                g = graph.Graph(prams,clustered=True)
-                g.update()
-                r = g.calculateR(True) #basic = true
-                i = g.getR()/float(pop)
-                z = None#g.getEdges()
-                c = g.getClusteringCoefficient()
-                minG = mg.MinimalGraph(prams,r,i,c,z,kind="clustered")
-                tp1 = tank.Tank(minG)
-                pickler.dump(tp1)
-                k += 1
+        for inde in range(90):
+            p = random.uniform(float(sys.argv[3]),float(sys.argv[4]))
+            prams = pm.Params(5,p,pop,.123,float(sys.argv[3])*pop,targeted= False)
 
-            for index in range(20):
-                rho = random.uniform(0.0015,0.004)
-                prams = pm.Params(3,p,pop,rho,float(sys.argv[3])*pop,targeted = False)
-                g = graph.Graph(prams,clustered=True)
-                g.update()
-                r = g.calculateR(True) #basic = true
-                i = g.getR()/float(pop)
-                z = None#g.getEdges()
-                c = g.getClusteringCoefficient()
-
-                minG = mg.MinimalGraph(prams,r,i,c,z,kind="clustered")
-                tp1 = tank.Tank(minG)
-                pickler.dump(tp1)
-
-                p+= .04
-            accu += 1
-            #print(str(int(accu*(100.0/3.0)))+"% Completed")
-    output1.close()
+            g = graph.Graph(prams,clustered=True)
+            g.update()
+            r = g.calculateR(True) #basic = true
+            i = g.getR()/float(pop)
+            z = None#g.getEdges()
+            c = g.getClusteringCoefficient()
+            minG = mg.MinimalGraph(prams,r,i,c,z,kind="clustered")
+            tp1 = tank.Tank(minG)
+            pickler.dump(tp1)
+        output1.close()
 #'''
 
 

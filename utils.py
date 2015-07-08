@@ -10,8 +10,8 @@ def plot_implicit2d(fn, rangeX=(0,4),rangeY=(0,1),ax=None):
     xmin, xmax = rangeX
     ymin, ymax = rangeY
 
-    A = np.linspace(xmin, xmax, 1000) # resolution of the contour
-    B = np.linspace(ymin, ymax, 1000) # number of slices
+    A = np.linspace(xmin, xmax, 250) # resolution of the contour
+    B = np.linspace(ymin, ymax, 250) # number of slices
     A1,A2 = np.meshgrid(A,B) # grid on which the contour is plotted
 
     for z in B: # plot contours in the XY plane
