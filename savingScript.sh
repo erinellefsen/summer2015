@@ -2,9 +2,10 @@
 #Parameters: Directory name, P_low, P_high
 
 
-ACCU=50
-while [[ $ACCU -lt 100 ]];
+ACCU=1
+while [[ $ACCU -lt 50 ]];
 do
-    python2 saveVitals.py clusteredGraphs--$ACCU $1 .$ACCU $2 $3
+    python2 saveVitals.py savedGraphs--$ACCU $1 .$ACCU $2 $3 $4
     let ACCU=ACCU+1
+    echo "Graph Completed"
 done

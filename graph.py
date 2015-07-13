@@ -323,9 +323,9 @@ class Graph:
                     if not vert.getStatus() == 'V':
                         count += 1
         if basic:
-            for bleh in self.vertices:
+            for vert in self.vertices:
 
-                lst = bleh.getSourceTo()
+                lst = vert.getSourceTo()
 
                 count += len(lst)
         return count   

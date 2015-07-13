@@ -1,28 +1,11 @@
-import sys
-import pickle
+def calculateP(numConnections,k,r):
+    p =1-( (1-(r/numConnections))**(1./k))
+    return p
 
-class Company(object):
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
-
-        
-fileName = sys.argv[1]
-with open(fileName+'.pkl', 'wb') as output:
-    company1 = Company('banana', 40)
-    pickle.dump(company1, output, pickle.HIGHEST_PROTOCOL)
-
-    company2 = Company('spam', 42)
-    pickle.dump(company2, output, pickle.HIGHEST_PROTOCOL)
-
-del company1
-del company2
-
-with open(fileName+'.pkl', 'rb') as input:
-    company1 = pickle.load(input)
-    print(company1.name)  # -> banana
-    print(company1.value)  # -> 40
-
-    company2 = pickle.load(input)
-    print(company2.name) # -> spam
-    print(company2.value)  # -> 42
+print(calculateP(25.33,4,5.85))
+print(calculateP(25.33,6,5.85))
+print(calculateP(25.33,4,10.65))
+print(calculateP(25.33,6,10.65))
+print(calculateP(25.33,4,14.4))
+print(calculateP(25.33,6,14.4))
+    

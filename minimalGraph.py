@@ -1,13 +1,15 @@
 import graph
 
 class MinimalGraph():
-    def __init__(self,params,r_0,propI,clusteringNum,edges=None,kind =None):
+    def __init__(self,params,r_0,rPrime,propI,propIPrime,clusteringNum,edges=None,kind =None):
         self.prams = params
         self.r_0 = r_0
         self.propI = propI
         self.edges = edges
         self.clusteringNum=clusteringNum
         self.kind = kind
+        self.rPrime = rPrime
+        self.propIPrime = propIPrime
         
         
     def expand(self):

@@ -10,5 +10,5 @@ class Params():
         self.targeted = targeted
         
         
-        
-     
+    def __str__(self):
+            return "("+str(self.k)+ " " +str(self.p)+ " "+str(self.numVerts)+ " "+str(self.connectionProb)+ " " +str(self.numVacc)+")"

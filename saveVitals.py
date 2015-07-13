@@ -6,78 +6,65 @@ import minimalGraph as mg
 import random 
 import sys
 
-pop = 4000
-vaccLst = [0,.2,.4,.6,.8]
-print("1% Completed")
-accu = 0
-for ind in range(1):
-    '''    
-    with open('CHANGE_NAME--RANDOM'+str(ind)+'.pkl', 'wb') as output:
-        pickler = pickle.Pickler(output,-1)
-        for inde in range(3):
-            k=1
-            p=.05
-            for index in range(13):
-                rho = random.uniform(0.0015,0.0035)
-                prams = pm.Params(k,.1,pop,rho,vaccLst[ind]*pop,targeted= False)
-                g = graph.Graph(prams,random = True)
-                g.update()
-                r = g.calculateR(True) #basic = true
-                i = g.getR()/float(pop)
-                z = g.getEdges()
-                c = g.getClusteringCoefficient()
-                minG = mg.MinimalGraph(prams,r,i,c,z,kind="random")
-                tp1 = tank.Tank(minG)
-                pickler.dump(tp1)
-                k += 1
+pop = 5000
+fileName = sys.argv[1]
+dirName = sys.argv[2]
+vaccLevel = sys.argv[3]
+p_low = sys.argv[4]
+p_high = sys.argv[5]
+graphType = sys.argv[6]
 
-            for index in range(27):
-                rho = random.uniform(0.0015,0.004)
-                prams = pm.Params(3,p,pop,rho,vaccLst[ind]*pop,targeted = False)
-                g = graph.Graph(prams,random=True)
-                g.update()
-                r = g.calculateR(True) #basic = true
-                i = g.getR()/float(pop)
-                z = g.getEdges()
-                c = g.getClusteringCoefficient()
+if graphType == "-c":
 
-                minG = mg.MinimalGraph(prams,r,i,c,z,kind="random")
-                tp1 = tank.Tank(minG)
-                pickler.dump(tp1)
-
-                p+= .05
-    output.close()
-    print(str((ind+1)*20)+"% Completed")
-    '''
-    with open(str(sys.argv[2])+"/"+str(sys.argv[1])+".pkl", 'wb') as output1:
+    with open(str(dirName)+"/"+str(fileName)+".pkl", 'wb') as output1:
         pickler = pickle.Pickler(output1,-1)
         for inde in range(90):
-            p = random.uniform(float(sys.argv[3]),float(sys.argv[4]))
-            prams = pm.Params(5,p,pop,.123,float(sys.argv[3])*pop,targeted= False)
-
+            k = 5
+            p = random.uniform(float(p_low),float(p_high))
+            N = pop
+            rho = 0 #rho doesn't matter for clustered
+            nu = float(vaccLevel)*pop
+            prams = pm.Params(k,p,N,rho,nu,targeted= False) 
+           
             g = graph.Graph(prams,clustered=True)
             g.update()
             r = g.calculateR(True) #basic = true
+            rPrime = g.calculateR()
             i = g.getR()/float(pop)
+            iPrime = (g.getR() - 1)/float(N-nu) #This is the proportion infected out of the original number of susceptibles.
             z = None#g.getEdges()
             c = g.getClusteringCoefficient()
-            minG = mg.MinimalGraph(prams,r,i,c,z,kind="clustered")
+
+            minG = mg.MinimalGraph(prams,r,rPrime,i,iPrime,c,z,kind="clustered")
             tp1 = tank.Tank(minG)
             pickler.dump(tp1)
         output1.close()
-#'''
+        
+elif graphType == "-r":
 
+    with open(str(dirName)+"/"+str(fileName)+".pkl", 'wb') as output1:
+        pickler = pickle.Pickler(output1,-1)
+        for inde in range(90):
+            k = 5
+            p = random.uniform(float(p_low),float(p_high))
+            N = pop
+            rho = .005066
+            nu = float(vaccLevel)*pop
+            prams = pm.Params(k,p,N,rho,nu,targeted= False) #changed p to 1
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            g = graph.Graph(prams,random=True)
+            g.update()
+            r = g.calculateR(True) #basic = true
+            rPrime = g.calculateR()
+            i = g.getR()/float(pop)
+            iPrime =(g.getR() - 1)/float(N-nu)#get proportion of initial infected individuals.
+          
+            z = None#g.getEdges()
+            c = g.getClusteringCoefficient()
+          
+            minG = mg.MinimalGraph(prams,r,rPrime,i,iPrime,c,z,kind="random")
+            tp1 = tank.Tank(minG)
+            pickler.dump(tp1)
+        output1.close()
+else:
+     raise ValueError("graphType was neither -r or -c")
