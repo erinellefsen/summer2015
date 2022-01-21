@@ -14,7 +14,7 @@ functools32==3.2.3-1
 ggplot==0.5.8
 google-api-python-client==1.2
 httplib2==0.9
-ipython==3.1.0
+ipython==7.16.3
 ipython-sql==0.3.1
 itsdangerous==0.24
 jsonschema==2.5.0
