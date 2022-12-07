@@ -9,7 +9,7 @@ argparse==1.2.1
 backports.ssl-match-hostname==3.4.0.2
 beautifulsoup4==4.3.2
 brewer2mpl==1.4
-certifi==2015.04.28
+certifi==2022.12.7
 functools32==3.2.3-1
 ggplot==0.5.8
 google-api-python-client==1.2
